@@ -1,0 +1,151 @@
+/* Principal */
+:root {
+    --gris: #a6a4a4;
+    --blanco: #FFFFFF;
+    --grisClaro: #f1f3f4;
+    --grisMedioClaro: #e1e1e1e1;
+    --morado: #8940BD;
+    --headercolor: #009688;
+    --fondopreguntas: #d9efed;
+
+
+    --fuentePrincipal: 'Roboto', sans-serif;
+    --fuenteSecundaria: 'Lato', sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--fuentePrincipal);
+    font-size: 1.6rem;
+    line-height: 1.5;
+}
+
+*, *:before, *:after {
+    box-sizing: border-box;
+}
+
+/* Globales */
+
+.contenedor {
+    max-width: 120rem;
+    width: 90%;
+    margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+    font-weight: 900;
+    font-family: var(--fuenteSecundaria);
+    margin: calc(var(--separacion) / 2) 0;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+}
+
+/* contenedor preguntas */
+
+.header-registro {
+    background-color: #009688;
+    filter: brightness(0.8);
+    z-index: 1;
+    width: 100%;
+    height: 20rem;
+    background-color: var(--headercolor);
+}
+
+.contenedor-registro {
+    position: relative;
+    margin-top: -10rem;
+    margin-bottom: 3rem;
+}
+
+.contenido-preguntas {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenido-preguntas .pregunta {
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: 1px solid var(--gris);
+    border-radius: 10px;
+    background-color: var(--blanco);
+}
+
+.titulo-registro {
+    font-family: var(--fuenteSecundaria);
+    font-weight: 400;
+    font-size: 2rem;
+    margin: 2rem 0;
+}
+
+@media (min-width: 768px) {
+    .titulo-registro {
+        font-family: var(--fuenteSecundaria);
+        font-size: 3rem;
+        font-weight: 400;
+        margin: 2rem 0;
+    }
+}
+
+.contenido-preguntas form {
+    width: 60%;
+    height: auto;
+}
+
+.input-registro, .section-registro, #buscador {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    border-radius: .5rem;
+    border: 1px solid var(--gris);
+}
+
+
+.coincidencia {
+    display: none;
+}
+
+.input-registro-correcto {
+    outline: none;
+    border-color: green;
+}
+
+.input-registro.input-registro-correcto::placeholder, .requisito-correcto {
+    color: green;
+}
+
+.input-registro-incorrecto {
+    outline: none;
+    border-color: red;
+}
+
+.input-registro.input-registro-incorrecto::placeholder, .errorE {
+    color: red;
+}
+
+.btnregistrar {
+    background-color: #009688;
+    color: white;
+    border: none;
+    border-radius: .5rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background-color .2s ease-in-out;
+}
+
+.btnregistrar:hover {
+    background-color: #04665c;
+}
