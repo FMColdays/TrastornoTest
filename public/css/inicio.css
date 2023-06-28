@@ -1,17 +1,10 @@
 /* Principal */
-
 :root {
-    --gris: #a6a4a4;
-    --blanco: #FFFFFF;
     --grisClaro: #f1f3f4;
-    --grisMedioClaro: #e1e1e1e1;
+    --grisMedioClaro: #cacdcf;
     --morado: #8940BD;
-    --headercolor: #009688;
-    --fondopreguntas: #d9efed;
-
-
     --fuentePrincipal: 'Roboto', sans-serif;
-    --fuenteSecundaria: 'Lato', sans-serif;
+    --colorLetra: rgb(5, 5, 105);
 }
 
 html {
@@ -41,7 +34,6 @@ h1,
 h2,
 h3 {
     font-weight: 900;
-    font-family: var(--fuenteSecundaria);
     margin: calc(var(--separacion) / 2) 0;
 }
 
@@ -54,7 +46,6 @@ img {
 a {
     text-decoration: none;
     color: black;
-    font-family: var(--fuenteSecundaria);
 }
 
 /* Header */
@@ -72,15 +63,15 @@ a {
     margin-right: 1rem;
     color: black;
     font-size: 1.5rem;
-    color: rgb(5, 5, 105);
+    color: var(--colorLetra);
     text-decoration: none;
 }
 
-@media (min-width: 576px){ 
+@media (min-width: 576px) {
     .header a {
         margin-right: 3rem;
         font-size: 1.6rem;
-    }  
+    }
 }
 
 .imagen-header {
@@ -105,13 +96,11 @@ a {
 
 .imagen-header p {
     font-size: 1.6rem;
-    font-family: var(--fuenteSecundaria);
 }
 
 @media (min-width: 576px) {
     .imagen-header p {
         font-size: 2rem;
-        font-family: var(--fuenteSecundaria);
     }
 }
 
@@ -124,19 +113,15 @@ a {
     background-color: var(--grisClaro);
 }
 
-.main-test>div>p {
-    text-align: center;
+.contenedor__iniciaTest {
     margin-bottom: 2rem;
-    color: rgb(5, 5, 105);
-    font-size: 2rem;
-    font-family: var(--fuenteSecundaria);
+    color: var(--colorLetra);
+    font-weight: 900;
 }
 
 @media (min-width: 576px) {
-    .main-test>div>p {
-        text-align: initial;
+    .contenedor__iniciaTest {
         margin: 2rem 0 2rem 7rem;
-        font-family: var(--fuenteSecundaria);
     }
 }
 
@@ -149,9 +134,8 @@ a {
     gap: 1.5rem;
 }
 
-
-
-.test, .test-realizados {
+.test, .test-realizados, .test-null {
+    position: relative;
     width: 20rem;
     height: 13rem;
     border-radius: 5px;
@@ -174,9 +158,11 @@ a {
     object-fit: cover;
 }
 
-.contenedor-test>div p {
+.nombre-test {
     text-align: center;
     margin-top: 1rem;
+    font-weight: 400;
+    color: var(--colorLetra);
 }
 
 /* test realizador */
@@ -196,7 +182,7 @@ a {
 
 .test-realizados p {
     text-align: center;
-    font-family: var(--fuenteSecundaria);
+
 }
 
 .contenedor-test-realizados {
@@ -215,6 +201,23 @@ a {
     margin-bottom: 4rem;
 }
 
-.imagen-test{
-    filter: brightness(.50);
+
+.contenedor__realizadoTest {
+    color: var(--colorLetra);
+    font-weight: 900;
+}
+
+.imagen-realizado {
+    filter: grayscale(100%);
+}
+
+.fa-circle-check {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    width: 20rem;
+    height: 13rem;
+    z-index: 1;
 }

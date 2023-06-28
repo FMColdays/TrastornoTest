@@ -154,9 +154,14 @@ img {
 }
 
 .contenido-preguntas form, .test-div-realizado {
-    width: 60%;
+    width: 90%;
     height: auto;
+}
 
+@media (min-width: 768px) {
+    .contenido-preguntas form, .test-div-realizado {
+        width: 60%;
+    }
 }
 
 .contenido-preguntas .pregunta {

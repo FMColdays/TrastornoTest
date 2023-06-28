@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('opcions', function (Blueprint $table) {
             $table->id();
-            $table->string('opcion');
-            $table->string('valor');
             $table->unsignedBigInteger('pregunta_id');
             $table->foreign('pregunta_id')->references('id')->on('preguntas')->onDelete('cascade');
+            $table->string('opcion');
+            $table->string('valor');
+
             $table->timestamps();
         });
     }

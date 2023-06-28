@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('template.plantilla')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registrarse</title>
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3923/3923306.png" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+@section('css')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-    <link rel="stylesheet" href="{{ asset('css/normalize.css') }}" />
     <link rel="stylesheet" href="{{ asset('css/registro.css') }}" />
-</head>
+@endsection
 
-<body style="background-color: aliceblue;">
+@section('titulo', 'Registrarse')
+
+@section('cuerpo')
     <header class="header-registro"></header>
 
     <div class="contenedor-registro">
@@ -132,8 +126,11 @@
         </div>
     </div>
 
+@endsection
+
+@section('js')
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script src="{{ asset('js/img.js') }}"></script>
     <script src="{{ asset('js/registro.js') }}"></script>
-</body>
-
-</html>
+@endsection

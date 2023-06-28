@@ -1,25 +1,16 @@
-<!DOCTYPE html>
-<html lang="es">
+@extends('template.plantilla')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Lato:wght@400;900&family=Roboto:wght@100;400;700;900&display=swap"
-        rel="stylesheet">
-    <link rel="shortcut icon" href="https://cdn-icons-png.flaticon.com/512/3923/3923306.png" />
+@section('css')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('css/normalize.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/login.css') }}" rel="stylesheet" />
-    <title>Login</title>
-</head>
+@endsection
 
-<body>
+@section('titulo', 'Login')
 
+@section('cuerpo')
     <main class="main">
         @if (session('mensaje'))
             <div class="error-login">
@@ -41,7 +32,7 @@
             </section>
 
             <section class="contenedor-contenido">
-                <form class="form-login" action="{{route('validar')}}" method="POST">
+                <form class="form-login" action="{{ route('validar') }}" method="POST">
                     @csrf
                     <p class="form-login__titulo">Iniciar Sesión</>
                     <div class="form-login-input">
@@ -66,7 +57,9 @@
 
         </section>
     </main>
-    <script src="{{ asset('js/img.js') }}"></script>
-</body>
+@endsection
 
-</html>
+
+@section('js')
+    <script src="{{ asset('js/img.js') }}"></script>
+@endsection

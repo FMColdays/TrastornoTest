@@ -4,7 +4,6 @@ html {
 }
 
 body {
-    font-family: var(--fuentePrincipal);
     font-size: 1.6rem;
     line-height: 1.5;
     width: 100%;
@@ -117,7 +116,8 @@ img {
     position: absolute;
     bottom: 0;
     left: 0;
-    width: 40%;
+    width: 100%;
+    max-width: 20rem;
     height: 20px;
     border-bottom: 1px solid #ccc;
 }
