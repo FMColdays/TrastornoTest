@@ -17,8 +17,6 @@ return new class extends Migration
             $table->foreign('pregunta_id')->references('id')->on('preguntas')->onDelete('cascade');
             $table->string('opcion');
             $table->string('valor');
-
-            $table->timestamps();
         });
     }
 

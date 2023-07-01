@@ -3,6 +3,10 @@ html {
     box-sizing: border-box;
 }
 
+*{
+    outline-color: rgb(19, 77, 194);
+}
+
 body {
     font-size: 1.6rem;
     line-height: 1.5;
@@ -56,7 +60,7 @@ body {
 
 .main {
     width: 90rem;
-    margin: 0 2rem;
+    margin: 0 1rem;
     border-radius: 1rem;
     overflow: hidden;
     display: flex;
@@ -66,7 +70,7 @@ body {
 .contenedor-login {
     background-color: white;
     width: 90rem;
-    margin: 5rem 2rem;
+    margin: 5rem 1rem;
     border: 1px solid #ccc;
     border-radius: 1rem;
     overflow: hidden;
@@ -133,11 +137,6 @@ img {
 @media (min-width: 768px) {
     .contenedor-contenido {
         padding: 20px 15px;
-    }
-}
-
-@media (min-width: 768px) {
-    .contenedor-contenido {
         min-height: 430px;
     }
 }
@@ -182,6 +181,9 @@ img {
     padding: 1rem;
     flex: 1;
 }
+.form-login__contraseña {
+    border-right: 0 solid transparent;
+}
 
 .form-login__correo {
     border-bottom: none;
@@ -214,3 +216,17 @@ img {
 .a-registrarse:hover {
     color: #0a4791;
 }
+
+.togglePassword{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 4rem;
+    height: 4rem;
+    border: 1px solid rgba(0, 0, 0, .15);;
+}
+.togglePassword{
+    border-left: 0 solid transparent;
+}
+

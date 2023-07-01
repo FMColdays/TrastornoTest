@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('semestres', function (Blueprint $table) {
             $table->id();
             $table->string('numero_semestre');
-            $table->timestamps();
         });
     }
 

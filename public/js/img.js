@@ -1,14 +1,3 @@
-const alerta = document.querySelector(".error-login");
-const contenedor = document.querySelector(".contenedor-login");
-if (alerta) contenedor.style.marginTop = "1rem";
-
-setTimeout(function () {
-    if (alerta) {
-        alerta.style.display = "none";
-        contenedor.style.marginTop = "5rem";
-    }
-}, 8000);
-
 (function (document) {
     var checkCount = 0,
         formatFound = false;
@@ -75,3 +64,5 @@ setTimeout(function () {
         window.sandboxApi.parentWindow.document) ||
         document
 );
+
+

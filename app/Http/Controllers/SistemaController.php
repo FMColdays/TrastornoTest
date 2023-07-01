@@ -111,9 +111,9 @@ class SistemaController extends Controller
             $opciones = OpcionSelecionada::where('test_realizado_id', $testRealizado->id)->get();
             return view('test.testRealizado', compact('preguntas', 'opciones', 'nombre'));
         } catch (AuthorizationException) {
-            return redirect()->back();
+            return redirect('@me');
         } catch (ModelNotFoundException) {
-            return redirect()->back();
+            return redirect('@me');
         }
     }
 
@@ -154,9 +154,19 @@ class SistemaController extends Controller
         }
     }
 
+    public function resultado(){
+        return view('test.resultado');
+    }
+
     public function descagarPDF()
     {
-       
-        return view('pdf.descargar');
+        try {
+            $this->authorize('permisoPDF', App\Models\TestRealizado::class);
+            $testRealizado = TestRealizado::where('estudiante_id', auth()->user()->id)->get();
+            $pdf = Pdf::loadView('pdf.descargar', compact('testRealizado'));
+            return $pdf->stream('test.pdf');
+        } catch (AuthorizationException) {
+            return redirect('@me');
+        }
     }
 }

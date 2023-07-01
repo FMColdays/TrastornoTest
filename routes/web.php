@@ -35,6 +35,7 @@ Route::get('Ansiedad', [SistemaController::class, 'test'])->name('Ansiedad')->mi
 Route::get('Estres', [SistemaController::class, 'test'])->name('Estres')->middleware('auth');
 Route::get('Afeccion-Academica', [SistemaController::class, 'test'])->name('Afeccion-Academica')->middleware('auth');
 
-Route::get('descagarPDF', [SistemaController::class, 'descagarPDF'])->name('descagarPDF');
+Route::get('descagarPDF', [SistemaController::class, 'descagarPDF'])->name('descagarPDF')->middleware('auth');
 Route::get('testrealizado/{testrealizado}', [SistemaController::class, 'testRealizado'])->name('testRealizado')->middleware('auth');
 Route::post('guardarTest', [SistemaController::class, 'GuardarTest'])->name('guardarTest')->middleware('auth');
+Route::get('resultado', [SistemaController::class, 'resultado'])->name('resultado');

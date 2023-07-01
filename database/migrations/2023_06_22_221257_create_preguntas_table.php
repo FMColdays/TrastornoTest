@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('pregunta');
             $table->string('tipo_pregunta');
             $table->string('categoria');           
-            $table->timestamps();
         });
     }
 

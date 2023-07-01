@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('institutos', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_instituto');
-            $table->timestamps();
         });
     }
 

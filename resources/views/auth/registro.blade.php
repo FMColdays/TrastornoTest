@@ -13,9 +13,7 @@
     <div class="contenedor-registro">
         <div class="contenedor contenido-preguntas">
             <form id="formulario" action="{{ route('registrarse') }}" method="post">
-
                 @csrf
-
                 <div class="pregunta">
                     <h1 class="titulo-registro">Registrarse</h1>
                 </div>

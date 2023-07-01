@@ -48,6 +48,7 @@
                         </span>
                         <input class="form-login__contraseña" name="contraseña" id="contraseña" type="password"
                             placeholder="Contraseña">
+                        <span class="togglePassword" id="togglePassword"><i id="ojo" class="fa-solid fa-eye"></i></span>
                     </div>
 
                     <input class="btn-sesion" type="submit" value="Iniciar sesión">
@@ -62,4 +63,5 @@
 
 @section('js')
     <script src="{{ asset('js/img.js') }}"></script>
+    <script src="{{asset('js/login.js')}}"></script>
 @endsection

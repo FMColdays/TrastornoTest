@@ -8,10 +8,10 @@ document
     .addEventListener("submit", function (event) {
         const preguntas = document.getElementsByClassName("test-validar");
 
-        for (var i = 0; i < preguntas.length; i++) {
-            var opciones = preguntas[i].querySelectorAll('input[type="radio"]');
-            var respuestaSeleccionada = false;
-            for (var j = 0; j < opciones.length; j++) {
+        for (let i = 0; i < preguntas.length; i++) {
+            let opciones = preguntas[i].querySelectorAll('input[type="radio"]');
+            let respuestaSeleccionada = false;
+            for (let j = 0; j < opciones.length; j++) {
                 if (opciones[j].checked) {
                     respuestaSeleccionada = true;
                     break;
