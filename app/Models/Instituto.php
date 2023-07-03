@@ -9,4 +9,9 @@ class Instituto extends Model
 {
     use HasFactory;
 
+    public function carreras()
+    {
+        return $this->hasMany(Carrera::class);
+    }
+
 }

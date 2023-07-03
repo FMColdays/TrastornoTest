@@ -1,15 +1,39 @@
-$(document).ready(function() {
-    $('.input-registro').on('input', function() {
-        $(this).siblings('.error-registro').hide();
+let valorOpcion;
+$("#buscador").select2();
+$(document).ready(function () {
+    $(".input-registro").on("input", function () {
+        $(this).siblings(".error-registro").hide();
+    });
+    
+    valorOpcion = $("#buscador").val();
+    opciones = document.querySelectorAll(".opcionesI");
+    opciones.forEach((opcion) => {
+        if (opcion.id !== valorOpcion) {
+            opcion.style.display = "none";
+        } else {
+            opcion.style.display = "block";
+        }
+    });
+
+    $("#buscador").on("change", function () {
+        valorOpcion = $(this).val();
+        opciones = document.querySelectorAll(".opcionesI");
+        opciones.forEach((opcion) => {
+            if (opcion.id !== valorOpcion) {
+                opcion.style.display = "none";
+            } else {
+                opcion.style.display = "block";
+                opcion.selected = true;
+            }
+        });
     });
 });
-$('#buscador').select2();
 
 const formulario = document.getElementById("formulario");
 const inputs = document.querySelectorAll(".pregunta .input-registro");
 
 const expresiones = {
-    numeroControl:/^\d{8}$/,
+    numeroControl: /^\d{8}$/,
     correo: /^[A-Za-z0-9._%+-]+@tuxtla\.tecnm\.mx$/,
     password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
     edad: /^\d+$/,
@@ -133,4 +157,3 @@ inputs.forEach((input) => {
     input.addEventListener("keyup", validarFormulario);
     input.addEventListener("blur", validarFormulario);
 });
-

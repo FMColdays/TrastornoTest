@@ -48,6 +48,8 @@ class RegistrarseStoreRequest extends FormRequest
             'contraseña.required' => 'La contraseña es requerida',
             'contraseña.regex' => 'Ingrese una contaseña valida',
 
+            'carrera.required' => 'La carrera es requerida',
+
             'contraseña2.required' => 'La validacion de contraseña es requerida',
             'contraseña2.same' => 'Las contraseñas no coinciden.',
 

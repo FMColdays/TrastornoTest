@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('semestre');
             $table->string('edad');
             $table->string('sexo');
+            $table->timestamps();
         });
     }
 
