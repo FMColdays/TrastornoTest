@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Carrera extends Model
 {
-    use HasFactory;
+  use HasFactory;
 
-    public function instituto()
-    {
-      return $this->belongsTo(Instituto::class);
-    }
+
+  public function estudiante()
+  {
+    return $this->belongsTo(Estudiante::class, 'carrera_id', 'id');
+  }
+
+
+  public function instituto()
+  {
+    return $this->belongsTo(Instituto::class);
+  }
 }

@@ -24,7 +24,7 @@ class TestRealizadoPolicy
 
     public function permisoPDF(Usuario $usuario)
     {
-        if ($usuario->testRealizado()->count()> 8) {
+        if ($usuario->testRealizado()->count() > 8) {
             return true;
         } else {
             return false;

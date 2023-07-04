@@ -13,7 +13,7 @@
     <title>@yield('titulo')</title>
 </head>
 
-<body @yield('color')>
+<body @yield('color') @yield('id')>
 
     @yield('cuerpo')
     @yield('js')

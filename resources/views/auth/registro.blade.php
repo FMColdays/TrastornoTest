@@ -76,9 +76,9 @@
 
                 <div class="pregunta">
                     <label class="label-registro" for="instituto">Instituto</label>
-                    <select id="buscador" class="section-registro" name="instituto">
+                    <select id="buscador" class="section-registro" name="instituto_id">
                         @foreach ($institutos as $instituto)
-                            <option value="{{ $instituto->id }}" {{ old('instituto') == $instituto->id ? 'selected' : '' }}>
+                            <option value="{{ $instituto->id }}" {{ old('instituto_id') == $instituto->id ? 'selected' : '' }}>
                                 {{ $instituto->nombre_instituto }}
                             </option>
                         @endforeach
@@ -87,10 +87,10 @@
 
                 <div class="pregunta">
                     <label class="label-registro" for="carrera">Carrera</label>
-                    <select id="carrera" class="section-registro" name="carrera" required>
+                    <select id="carrera" class="section-registro" name="carrera_id" required>
                         @foreach ($carreras as $carrera)
                             <option class="opcionesI" id="{{ $carrera->instituto_id }}" value="{{ $carrera->id }}"
-                                {{ old('carrera') == $carrera->id ? 'selected' : '' }}>
+                                {{ old('carrera_id') == $carrera->id ? 'selected' : '' }}>
                                 {{ $carrera->nombre_carrera }}
                             </option>
                         @endforeach
@@ -101,9 +101,9 @@
 
                 <div class="pregunta">
                     <label class="label-registro" for="semestre">Semestre</label>
-                    <select class="section-registro" name="semestre">
+                    <select class="section-registro" name="semestre_id">
                         @foreach ($semestres as $semestre)
-                            <option value="{{ $semestre->id }}" {{ old('semestre') == $semestre->id ? 'selected' : '' }}>
+                            <option value="{{ $semestre->id }}" {{ old('semestre_id') == $semestre->id ? 'selected' : '' }}>
                                 {{ $semestre->numero_semestre }}
                             </option>
                         @endforeach

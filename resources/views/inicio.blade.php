@@ -24,8 +24,8 @@
         </div>
         <div class="contenedor-ancle">
             @if (auth()->user()->testRealizado()->count() > 8)
-                <a href="{{ route('descagarPDF') }}" target=_blank><i
-                        class="fa-solid fa-file-pdf fa-xl"></i> Descargar certificado</a>
+                <a href="{{ route('descagarPDF') }}" target=_blank><i class="fa-solid fa-file-pdf fa-xl"></i> Descargar
+                    certificado</a>
             @endif
 
             <a href="{{ route('logout') }}">Cerrar sesion</a>

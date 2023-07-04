@@ -26,9 +26,9 @@ class RegistrarseStoreRequest extends FormRequest
             'correo' => ['required', 'regex:/^[A-Za-z0-9._%+-]+@tuxtla\.tecnm\.mx$/', 'unique:estudiantes,correo'],
             'contraseña' => ['required', 'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/'],
             'contraseña2' => 'required|same:contraseña',
-            'instituto' => 'required',
-            'carrera' => 'required',
-            'semestre' => 'required',
+            'instituto_id' => 'required',
+            'carrera_id' => 'required',
+            'semestre_id' => 'required',
             'edad' => ['required', 'regex:/^\d+$/'],
             'sexo' => 'required',
         ];
@@ -48,7 +48,7 @@ class RegistrarseStoreRequest extends FormRequest
             'contraseña.required' => 'La contraseña es requerida',
             'contraseña.regex' => 'Ingrese una contaseña valida',
 
-            'carrera.required' => 'La carrera es requerida',
+            'carrera_id.required' => 'La carrera es requerida',
 
             'contraseña2.required' => 'La validacion de contraseña es requerida',
             'contraseña2.same' => 'Las contraseñas no coinciden.',

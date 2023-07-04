@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\SistemaController;
+use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +27,17 @@ Route::post('registrarse', [SistemaController::class, 'registrarse'])->name('reg
 
 Route::get('@me', [SistemaController::class, 'inicio'])->name('@me')->middleware('auth');
 
+// Administrador
+
+
+Route::resource('estudiante', EstudianteController::class);
+
+Route::resource('test', TestController::class);
+
+
+
+
+// Estudiantes
 Route::get('Audit', [SistemaController::class, 'test'])->name('Audit')->middleware('auth');
 Route::get('PHQ-9', [SistemaController::class, 'test'])->name('PHQ-9')->middleware('auth');
 Route::get('MDQ', [SistemaController::class, 'test'])->name('MDQ')->middleware('auth');

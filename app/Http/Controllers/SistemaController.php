@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\GuardarTestStoreRequest;
 use App\Http\Requests\RegistrarseStoreRequest;
+use App\Models\Administrador;
 use App\Models\Carrera;
 use App\Models\Estudiante;
 use App\Models\Instituto;
@@ -19,7 +20,6 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class SistemaController extends Controller
 {
@@ -31,18 +31,31 @@ class SistemaController extends Controller
 
     public function validar(Request $request)
     {
-        $encontrado = Estudiante::where('correo', $request->input('correo'))->first();
-        if (!is_null($encontrado)) {
-            $conincide = Hash::check($request->input('contraseña'), $encontrado->contraseña);
+        $encontrado = Administrador::where('correo', $request->input('correo'))->first();
+
+        if (is_null($encontrado)) {
+            $encontrado = Estudiante::where('correo', $request->input('correo'))->first();
+            if (is_null($encontrado)) {
+                return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
+            } else {
+                $conincide = Hash::check($request->input('contraseña'), $encontrado->contraseña);
+                if ($conincide) {
+                    Auth::guard('guard_estudiantes')->login($encontrado);
+                    $_SESSION['AuthGuard'] = 'guard_estudiantes';
+                    return redirect('@me');
+                } else {
+                    return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
+                }
+            }
+        } else {
+            $conincide = Hash::check($request->input('contraseña'),  $encontrado->contraseña);
             if ($conincide) {
-                Auth::guard('guard_estudiantes')->login($encontrado);
-                $_SESSION['AuthGuard'] = 'guard_estudiantes';
+                Auth::guard('guard_administrador')->login($encontrado);
+                $_SESSION['AuthGuard'] = 'guard_administrador';
                 return redirect('@me');
             } else {
                 return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
             }
-        } else {
-            return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
         }
     }
 
@@ -76,8 +89,12 @@ class SistemaController extends Controller
     public function inicio()
     {
         $tests = Test::all();
-        $testRealizados = TestRealizado::where('estudiante_id', auth()->user()->id)->get();
-        return view('inicio', compact('tests', 'testRealizados'));
+        if ($_SESSION['AuthGuard'] == 'guard_administrador') {
+            return view('admin.inicio');
+        } elseif ($_SESSION['AuthGuard'] == 'guard_estudiantes') {
+            $testRealizados = TestRealizado::where('estudiante_id', auth()->user()->id)->get();
+            return view('inicio', compact('tests', 'testRealizados'));
+        }
     }
 
 
@@ -121,6 +138,8 @@ class SistemaController extends Controller
     {
 
         try {
+
+
             $opciones = $request->except('_token', 'test_id', 'nombre');
             $test = Test::where('nombreTest', decrypt($request->input('nombre')))->first();
             $testRealizado = TestRealizado::where('test_id', $test->id)->where('estudiante_id', auth()->user()->id)->first();
@@ -148,13 +167,22 @@ class SistemaController extends Controller
                 $nueva_respuesta->opcion_id =  $opcion;
                 $nueva_respuesta->save();
             }
+
+            $randomString1 = substr(base_convert(mt_rand(), 10, 36), 1);
+            $randomString2 = substr(base_convert(time(), 10, 36), 1);
+            if (auth()->user()->testRealizado()->count() > 4) {
+                auth()->user()->id_certificado = $randomString1 . $randomString2;
+                auth()->user()->save();
+            }
+
             return redirect('@me');
         } catch (AuthorizationException) {
             return redirect('@me');
         }
     }
 
-    public function resultado(){
+    public function resultado()
+    {
         return view('test.resultado');
     }
 
@@ -162,9 +190,10 @@ class SistemaController extends Controller
     {
         try {
             $this->authorize('permisoPDF', App\Models\TestRealizado::class);
-            $testRealizado = TestRealizado::where('estudiante_id', auth()->user()->id)->get();
-            $pdf = Pdf::loadView('pdf.descargar', compact('testRealizado'));
-            return $pdf->stream('test.pdf');
+            // $testRealizado = TestRealizado::where('estudiante_id', auth()->user()->id)->get();
+            // $pdf = Pdf::loadView('pdf.descargar', compact('testRealizado'));
+            // return $pdf->stream('test.pdf');
+            return view('pdf.descargar');
         } catch (AuthorizationException) {
             return redirect('@me');
         }

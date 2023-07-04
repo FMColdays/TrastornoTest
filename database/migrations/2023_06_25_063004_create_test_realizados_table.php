@@ -12,12 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('test_realizados', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre');
-            $table->unsignedBigInteger('estudiante_id');      
-            $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onDelete('cascade');
-            $table->unsignedBigInteger('test_id');
-            $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
+                $table->id();
+                $table->string('nombre');
+                $table->unsignedBigInteger('estudiante_id');
+                $table->foreign('estudiante_id')->references('id')->on('estudiantes')->onDelete('cascade');
+                $table->unsignedBigInteger('test_id');
+                $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade'); {
+                $table->timestamps();
+            }
         });
     }
 

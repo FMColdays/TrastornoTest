@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use App\Http\Requests\StoreEstudianteRequest;
 use App\Http\Requests\UpdateEstudianteRequest;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EstudianteController extends Controller
 {
@@ -13,12 +15,18 @@ class EstudianteController extends Controller
      */
     public function index()
     {
-        //
+        try {
+            $this->authorize('verEstudiantes', App\Models\Estudiante::class);
+            $estudiantes = Estudiante::all();
+            return view('admin.estudiantes', compact('estudiantes'));
+        } catch (AuthorizationException) {
+            return redirect('@me');
+        } catch (ModelNotFoundException) {
+            return redirect('@me');
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function create()
     {
         //
@@ -45,7 +53,14 @@ class EstudianteController extends Controller
      */
     public function edit(Estudiante $estudiante)
     {
-        //
+        try {
+            $this->authorize('editarEstudiante', $estudiante);
+            return view('admin.estudiante', compact('estudiante'));
+        } catch (AuthorizationException) {
+            return redirect('@me');
+        } catch (ModelNotFoundException) {
+            return redirect('@me');
+        }
     }
 
     /**
@@ -53,7 +68,17 @@ class EstudianteController extends Controller
      */
     public function update(UpdateEstudianteRequest $request, Estudiante $estudiante)
     {
-        //
+        try {
+            $this->authorize('actualizarEstudiante', $estudiante);
+
+            $estudiante->confirmacion = $request->input('confirmacion');
+            $estudiante->save();
+            return redirect(route('estudiante.index'));
+        } catch (AuthorizationException) {
+            return redirect('@me');
+        } catch (ModelNotFoundException) {
+            return redirect('@me');
+        }
     }
 
     /**

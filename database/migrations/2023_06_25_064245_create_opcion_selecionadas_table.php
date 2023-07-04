@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('opcion_id');
             $table->foreign('opcion_id')->references('id')->on('opcions')->onDelete('cascade');
-            
+
             $table->unsignedBigInteger('test_realizado_id');
             $table->foreign('test_realizado_id')->references('id')->on('test_realizados')->onDelete('cascade');
+
+            $table->timestamps();
         });
     }
 
