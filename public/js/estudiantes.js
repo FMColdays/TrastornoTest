@@ -1,28 +1,32 @@
-const contenedor = document.querySelectorAll(".enlace");
-const buscarInput = document.getElementById("buscar");
-
-buscarInput.addEventListener("input", buscar);
-
-function buscar(e) {
-    const busqueda = e.target.value.toLowerCase();
-
-    contenedor.forEach((enlace) => {
-        const numeroControl = enlace.querySelector(".numeroControl").textContent.toLowerCase();
-        const correo = enlace.querySelector(".correo").textContent.toLowerCase();
-        const instituto = enlace.querySelector(".instituto").textContent.toLowerCase();
-        const carrera = enlace.querySelector(".carrera").textContent.toLowerCase();
-        const semestre = enlace.querySelector(".semestre").textContent.toLowerCase();
-
+$(document).ready(function () {
+    let nextPageUrl = $('#estudiantes-contenedor').data('next-page');
+    $(window).scroll(function () {
         if (
-            numeroControl.includes(busqueda) ||
-            correo.includes(busqueda) ||
-            instituto.includes(busqueda) ||
-            carrera.includes(busqueda) ||
-            semestre.includes(busqueda)
+            $(window).scrollTop() + $(window).height() >=
+            $(document).height() - 100
         ) {
-            enlace.style.display = "block";
-        } else {
-            enlace.style.display = "none";
+            if (nextPageUrl) {
+                loadMorePosts();
+            }
         }
     });
-}
+    function loadMorePosts() {
+        $.ajax({
+            url: nextPageUrl,
+            type: "get",
+            beforeSend: function () {
+                nextPageUrl = "";
+            },
+            success: function (data) {
+                nextPageUrl = data.nextPageUrl;
+                $("#estudiantes-contenedor").append(data.view);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error loading more posts:", error);
+            },
+        });
+    }
+});
+
+
+

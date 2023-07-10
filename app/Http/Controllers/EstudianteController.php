@@ -6,6 +6,8 @@ use App\Models\Estudiante;
 use App\Http\Requests\StoreEstudianteRequest;
 use App\Http\Requests\UpdateEstudianteRequest;
 use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class EstudianteController extends Controller
@@ -13,11 +15,37 @@ class EstudianteController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $this->authorize('verEstudiantes', App\Models\Estudiante::class);
-            $estudiantes = Estudiante::all();
+            $buscar = trim($request->input('buscar'));
+
+            if ($buscar == '') {
+                $estudiantes = Estudiante::latest()->paginate(9);
+            } else {
+                $estudiantes = Estudiante::when($buscar, function ($query, $buscar) {
+                    return $query->where(function ($query) use ($buscar) {
+                        $query->where('numeroControl', $buscar)
+                            ->orWhere('correo', $buscar)
+                            ->orWhereHas('instituto', function ($query) use ($buscar) {
+                                $query->where('nombre_instituto', 'LIKE', '%' . $buscar . '%');
+                            })->orWhereHas('carrera', function ($query) use ($buscar) {
+                                $query->where('nombre_carrera', 'LIKE', '%' . $buscar . '%');
+                            })->orWhereHas('semestre', function ($query) use ($buscar) {
+                                $query->where('numero_semestre', 'LIKE', '%' . $buscar . '%');
+                            });
+                    });
+                })->latest()->paginate(PHP_INT_MAX);
+            }
+
+            if ($request->ajax()) {
+                $view = view('admin.load', compact('estudiantes'))->render();
+                return response()->json(['view' => $view, 'nextPageUrl' => $estudiantes->nextPageUrl()]);
+            }
+
+
+
             return view('admin.estudiantes', compact('estudiantes'));
         } catch (AuthorizationException) {
             return redirect('@me');

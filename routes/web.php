@@ -3,6 +3,7 @@
 use App\Http\Controllers\EstudianteController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\TestRealizadoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::redirect('/', '@me');
+Route::redirect('/', 'login');
 
 Route::get('login', [SistemaController::class, 'login'])->name('login')->middleware('guest');
 Route::post('validar', [SistemaController::class, 'validar'])->name('validar')->middleware('guest');
@@ -28,27 +29,10 @@ Route::post('registrarse', [SistemaController::class, 'registrarse'])->name('reg
 Route::get('@me', [SistemaController::class, 'inicio'])->name('@me')->middleware('auth');
 
 // Administrador
-
-
-Route::resource('estudiante', EstudianteController::class);
-
-Route::resource('test', TestController::class);
-
-
+Route::resource('estudiante', EstudianteController::class)->middleware('auth');
+Route::resource('test', TestController::class)->middleware('auth');
+Route::resource('testRealizado', TestRealizadoController::class)->middleware('auth');
 
 
 // Estudiantes
-Route::get('Audit', [SistemaController::class, 'test'])->name('Audit')->middleware('auth');
-Route::get('PHQ-9', [SistemaController::class, 'test'])->name('PHQ-9')->middleware('auth');
-Route::get('MDQ', [SistemaController::class, 'test'])->name('MDQ')->middleware('auth');
-Route::get('DEP-ADO', [SistemaController::class, 'test'])->name('DEP-ADO')->middleware('auth');
-Route::get('EDDS', [SistemaController::class, 'test'])->name('EDDS')->middleware('auth');
-Route::get('BHS', [SistemaController::class, 'test'])->name('BHS')->middleware('auth');
-Route::get('Ansiedad', [SistemaController::class, 'test'])->name('Ansiedad')->middleware('auth');
-Route::get('Estres', [SistemaController::class, 'test'])->name('Estres')->middleware('auth');
-Route::get('Afeccion-Academica', [SistemaController::class, 'test'])->name('Afeccion-Academica')->middleware('auth');
-
-Route::get('descagarPDF', [SistemaController::class, 'descagarPDF'])->name('descagarPDF')->middleware('auth');
-Route::get('testrealizado/{testrealizado}', [SistemaController::class, 'testRealizado'])->name('testRealizado')->middleware('auth');
-Route::post('guardarTest', [SistemaController::class, 'GuardarTest'])->name('guardarTest')->middleware('auth');
-Route::get('resultado', [SistemaController::class, 'resultado'])->name('resultado');
+Route::get('resultado', [TestRealizadoController::class, 'resultado'])->name('resultado');

@@ -16,8 +16,9 @@ class Carrera extends Model
   }
 
 
-  public function instituto()
-  {
-    return $this->belongsTo(Instituto::class);
+
+  public function institutos(){
+    return $this->belongsToMany(Instituto::class);
   }
+
 }

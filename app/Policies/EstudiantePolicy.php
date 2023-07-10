@@ -3,7 +3,6 @@
 namespace App\Policies;
 
 use App\Models\Administrador;
-use App\Models\Estudiante;
 use Illuminate\Foundation\Auth\User as Usuario;
 class EstudiantePolicy
 {

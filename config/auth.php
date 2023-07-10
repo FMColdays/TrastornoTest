@@ -2,8 +2,6 @@
 
 return [
 
-
-
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
@@ -16,7 +14,7 @@ return [
         ],
         'guard_administrador' => [
             'driver' => 'session',
-            'provider' => 'providers_administrador',
+            'provider' => 'provide  rs_administrador',
         ],
         'guard_estudiantes' => [
             'driver' => 'session',

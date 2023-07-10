@@ -1,9 +1,6 @@
 @extends('template.plantilla')
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('css/inicio.css') }}" rel="stylesheet" />
 @endsection
 
@@ -12,6 +9,7 @@
 @section('cuerpo')
 
     <header class="header">
+
         <div class="contenedor imagen-header">
             <picture>
                 <source sizes="1920w" srcset=" {{ asset('img/avif/logotec.avif') }} 1920w" type="image/avif">
@@ -20,12 +18,14 @@
                 <img loading="lazy" decoding="async" src="{{ asset('img/jpg/logotec.png') }}" lazyalt="imagen"
                     width="500" height="300">
             </picture>
-            <p>TestTecNM</p>
         </div>
+
         <div class="contenedor-ancle">
             @if (auth()->user()->testRealizado()->count() > 8)
-                <a href="{{ route('descagarPDF') }}" target=_blank><i class="fa-solid fa-file-pdf fa-xl"></i> Descargar
-                    certificado</a>
+                <a href="javascript:generarPDF()"><i class="fa-solid fa-file-pdf fa-xl"></i></a>
+                <div id="svg-container" style="display: none">
+                    {{ QrCode::size(500)->generate('http://127.0.0.1:8000/estudiante/' . auth()->user()->numeroControl . '/edit') }}
+                </div>
             @endif
 
             <a href="{{ route('logout') }}">Cerrar sesion</a>
@@ -43,7 +43,7 @@
 
                     @if (!$testRealizado)
                         <div>
-                            <a href="{{ route($test->nombreTest) }}">
+                            <a href="{{ route('test.show', $test) }}">
                                 <div class="test">
                                     <img src="https://ssl.gstatic.com/docs/templates/thumbnails/1R2sTjfMFHee6VYVhuz8Tpi78mROlLWY4XgaKkJKMuis_400.png"
                                         alt="imagen-test">
@@ -69,14 +69,15 @@
 
     <section class="realizados">
         <div class="contenedor ">
+
             <p class="contenedor__realizadoTest">
                 {{ count($testRealizados) == 0 ? 'No haz realizado ningun test' : 'Test Realizados' }}</p>
+
             <div class="contenedor-test-realizados ">
                 @foreach ($testRealizados as $testRealizado)
-                    <a href="{{ route('testRealizado', $testRealizado) }}">
+                    <a href="{{ route('testRealizado.show', $testRealizado) }}">
 
                         <div class="test-realizados">
-
                             <img src="https://ssl.gstatic.com/docs/templates/thumbnails/1R2sTjfMFHee6VYVhuz8Tpi78mROlLWY4XgaKkJKMuis_400.png"
                                 alt="imagen-test">
                             <div class="nombre-test">
@@ -86,7 +87,12 @@
                     </a>
                 @endforeach
             </div>
+
         </div>
     </section>
 
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/canvg/1.5/canvg.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
+    <script src="{{ asset('js/generarPDF.js') }}"></script>
 @endsection

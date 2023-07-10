@@ -23,4 +23,9 @@ class Test extends Model
     {
         return $this->hasOne(testRealizado::class);
     }
+
+    public function getRouteKeyName()
+    {
+        return 'nombreTest';
+    }
 }

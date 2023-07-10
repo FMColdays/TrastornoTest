@@ -1,10 +1,10 @@
 /* Principal */
 :root {
-    --grisClaro: #f1f3f4;
-    --grisMedioClaro: #cacdcf;
-    --morado: #8940BD;
-    --fuentePrincipal: 'Roboto', sans-serif;
-    --colorLetra: rgb(5, 5, 105);
+    --fuentePrincipal: 'Montserrat', sans-serif;
+    --colorPrincipal: #1B396A;
+    --fondo: #e3eef5;
+    --borde: #cacdcf;
+    --bordeMorado: #8940BD;
 }
 
 html {
@@ -33,7 +33,7 @@ body {
 h1,
 h2,
 h3 {
-    font-weight: 900;
+    font-weight: 700;
     margin: calc(var(--separacion) / 2) 0;
 }
 
@@ -45,84 +45,68 @@ img {
 
 a {
     text-decoration: none;
-    color: black;
 }
 
 /* Header */
 
 .header {
-    width: 100%;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    background: var(--colorPrincipal);
     display: flex;
     justify-content: space-around;
     align-items: center;
+    color: white;
 }
 
-.header .contenedor-ancle{
+.header .contenedor-ancle {
     display: flex;
     justify-content: flex-end;
     flex: 1;
     gap: 2rem;
     margin-right: 2rem;
-    color: black;   
     text-decoration: none;
 }
 
-.contenedor-ancle a{
+.contenedor-ancle a {
     font-size: 1.4rem;
     color: var(--colorLetra);
 }
 
 @media (min-width: 576px) {
-    .contenedor-ancle a{
+    .contenedor-ancle a {
         font-size: 1.6rem;
     }
 }
+
 .imagen-header {
     display: flex;
     align-items: center;
-    flex:1;
-    gap: 1rem;
-    margin-left: 2rem;
-    padding: .3rem 0;
+    flex: 1;
+    margin: .5rem 0 .5rem 2rem;
+
 }
 
 .imagen-header img {
     width: 100%;
-    height: 4rem;
-    margin-left: .5rem;
+    height: 7rem;
 }
 
 @media (min-width: 576px) {
     .imagen-header img {
-        width: 100%;
-        height: 7rem;
-    }
-}
-
-.imagen-header p {
-    font-size: 1.6rem;
-}
-
-@media (min-width: 576px) {
-    .imagen-header p {
-        font-size: 2rem;
+        height: 8rem;
     }
 }
 
 /* Tests */
 
 .main-test {
-    width: 100%;
-    height: auto;
+    color: var(--colorPrincipal);
     padding: 1rem 0;
-    background-color: var(--grisClaro);
+    background-color: var(--fondo);
 }
 
+
 .contenedor__iniciaTest {
-    margin-bottom: 2rem;
-    color: var(--colorLetra);
-    font-weight: 900;
+    font-weight: 700;
 }
 
 @media (min-width: 576px) {
@@ -131,64 +115,84 @@ a {
     }
 }
 
-
 .contenedor-test, .contenedor-test-realizados {
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
     flex-wrap: wrap;
     gap: 1.5rem;
 }
 
 .test, .test-realizados, .test-null {
     position: relative;
-    width: 20rem;
-    height: 13rem;
+    width: 15rem;
+    height: 11rem;
     border-radius: 5px;
-    border: 1px solid var(--grisMedioClaro);
+    border: 1px solid var(--borde);
     transition: all 0.3s ease-in-out;
     overflow: hidden;
 }
 
+@media (min-width: 576px) {
+    .test, .test-realizados, .test-null {
+        width: 20rem;
+        height: 13rem;
+    }
+}
+
 .test:hover, .test-realizados:hover {
-    border: 1px solid var(--morado);
+    border: 1px solid var(--bordeMorado);
 }
 
 .test:hover {
     transform: scale(1.1);
 }
 
-.test img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
 .nombre-test {
     text-align: center;
     margin-top: 1rem;
     font-weight: 400;
-    color: var(--colorLetra);
+    font-size: 1.2rem;
 }
 
-/* test realizador */
+@media (min-width: 576px) {
+    .nombre-test {
+        font-size: 1.6rem;
+    }
+}
+
+/* test realizados */
 
 .test-realizados {
-    width: 22rem;
-    height: 22rem;
+    text-align: center;
+    color: var(--colorPrincipal);
+    width: 15rem;
+    height: 15rem;
+}
+
+@media (min-width: 576px) {
+    .test-realizados {
+        width: 21rem;
+        height: 21rem;
+    }
+
+}
+
+.realizados {
+    margin-bottom: 4rem;
+}
+
+.contenedor__realizadoTest {
+    color: var(--colorPrincipal);
+    font-weight: 700;
 }
 
 .test-realizados img {
     width: 100%;
     height: 70%;
-    padding-bottom: 1rem;
     object-fit: cover;
-    border-bottom: 1px solid var(--grisMedioClaro);
-}
-
-.test-realizados p {
-    text-align: center;
-
+    border-bottom: 1px solid var(--borde);
 }
 
 .contenedor-test-realizados {
@@ -203,16 +207,6 @@ a {
     }
 }
 
-.realizados {
-    margin-bottom: 4rem;
-}
-
-
-.contenedor__realizadoTest {
-    color: var(--colorLetra);
-    font-weight: 900;
-}
-
 .imagen-realizado {
     filter: grayscale(100%);
 }
@@ -223,8 +217,7 @@ a {
     justify-content: center;
     align-items: center;
     font-size: 4rem;
-    width: 20rem;
-    height: 13rem;
+    width: 100%;
+    height: 100%;
     z-index: 1;
 }
-

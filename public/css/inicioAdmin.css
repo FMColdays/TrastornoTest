@@ -1,20 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
+:root {
+    --fuentePrincipal: 'Montserrat', sans-serif;
+    --colorPrincipal: #1B396A;
+    --colorSecundario: #07136e;
+    --fondo: #e3eef5;
+    --borde: #cacdcf;
+    --bordeMorado: #8940BD;
+}
 
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     text-decoration: none;
-    font-family: 'Open Sans', sans-serif;
 }
 
 /* Principal */
-:root {
-    --grisClaro: #f1f3f4;
-    --grisMedioClaro: #cacdcf;
-    --fuentePrincipal: 'Open Sans', sans-serif;
-    --colorLetra: rgb(5, 5, 105);
-}
 
 html {
     font-size: 62.5%;
@@ -62,6 +61,7 @@ img {
 
 /* cuerpo */
 body {
+    background-color: var(--fondo);
     margin-left: 8rem;
     margin-top: 8rem;
     transition: margin-left 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
@@ -75,7 +75,7 @@ main {
 header {
     width: 100%;
     height: 8rem;
-    background: #2632b4;
+    background: var(--colorPrincipal);
     display: flex;
     align-items: center;
     position: fixed;
@@ -86,6 +86,7 @@ header {
 .icon__menu {
     width: 5rem;
     height: 100%;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -101,7 +102,7 @@ header {
 .menu__side {
     width: 8rem;
     height: 100%;
-    background: #07136e;
+    background: var(--colorSecundario);
     position: fixed;
     top: 0;
     left: 0;
@@ -110,7 +111,7 @@ header {
     z-index: 300;
     overflow: hidden;
     overflow-y: scroll;
-    border-right: 2rem solid #07136e;
+    border-right: 2rem solid var(--colorSecundario);
     transition: all 300ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
 }
 
@@ -211,8 +212,7 @@ a.selected {
 
 /* Inicio */
 
-.contenedor-inicio{
-    width: 100%;
+.contenedor-inicio {
     display: flex;
     flex-wrap: wrap;
     gap: 2rem;
@@ -220,37 +220,48 @@ a.selected {
     border-radius: 1rem;
     justify-content: center;
     align-items: center;
-    background-color: aliceblue;
 }
 
-@media (min-width: 768px){ 
-    .contenedor-inicio{ 
+@media (min-width: 768px) {
+    .contenedor-inicio {
         height: 100%;
     }
 }
 
-.card-inicio{
-    width: 30rem;
-    height: 30rem;
+.card-inicio {
+    width: 25rem;
+    height: 25rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center ;
-    border: 1px solid black;
+    align-items: center;
+    background-color: #e3eef5;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
+
+    -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
+
+    -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
     transition: transform 0.3s ease-in-out;
 }
 
-.card-inicio:hover{
+.card-inicio:hover {
     transform: scale(1.05);
 }
 
-.card-inicio i{
+.card-inicio i {
     font-size: 5rem;
     margin-bottom: 2rem;
 }
-
-
 
 /* estudiantes */
 
@@ -260,6 +271,20 @@ a.selected {
     flex-direction: column;
     align-items: center;
     background-color: aliceblue;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
+
+    -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
+
+    -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
     padding: 1rem;
 }
@@ -271,17 +296,15 @@ a.selected {
     }
 }
 
-.header-estudiantes h1 {
+.header-estudiantes h1,
+.header-estudiantes__buscar h4 {
     font-weight: 700;
+    color: var(--colorSecundario);
 }
 
 .header-estudiantes__buscar {
     display: flex;
     gap: 1rem;
-}
-
-.header-estudiantes__buscar h4 {
-    font-weight: 700;
 }
 
 .main-estudiantes {
@@ -292,7 +315,7 @@ a.selected {
     border-radius: 1rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
-    gap:2rem;
+    gap: 2rem;
 }
 
 .card-estudiantes {
@@ -300,27 +323,75 @@ a.selected {
     height: 30rem;
     border-radius: 1rem;
     padding: 1rem;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
+
+    -webkit-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
+
+    -moz-box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.16),
+        0px 6px 12px rgba(0, 0, 0, 0.12),
+        0px 1px 8px rgba(0, 0, 0, 0.1),
+        0px 10px 20px rgba(0, 0, 0, 0.1);
     transition: transform .3s ease-in-out;
 }
 
-.card-estudiantes:hover{
+.card-estudiantes:hover {
     transform: scale(1.01);
 }
 
-.card-estudiantes .contenedor_icono{
-    flex: 1;
-    text-align: center;
-    color: green;
-    font-size: 5rem;
+
+
+
+/* paginador */
+/* 
+.contenedor-links {
+    display: flex;
+    flex-direction: column;
 }
 
+.contenedor-links__paginacion {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+}
 
+.contenedor-links__btn {
+    color: #f1f3f4;
+    border-radius: .5rem;
+    padding: .5rem;
+    background-color: #45d7dc;
+}
 
+.contenedor-links__numeros {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 
+.numero {
+    color: #636566;
+    font-weight: 700;
+}
 
+.numero.active {
+    color: #061fdc;
+}
 
+.contenedor-links__flechas {
+    font-size: 3rem;
+    color: #061fdc;
+}
 
+.contenedor-links__flechas.disabled {
+    color: #636566;
+}
 
-
-
-
+.contenedor-links__btn.disabled {
+    background-color: #cacdcf;
+} */

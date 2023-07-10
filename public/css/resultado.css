@@ -1,23 +1,16 @@
 /* Principal */
 
 :root {
-    --gris: #a6a4a4;
-    --blanco: #FFFFFF;
-    --grisClaro: #f1f3f4;
-    --grisMedioClaro: #e1e1e1e1;
-    --morado: #8940BD;
-    --headercolor: #009688;
-    --fondopreguntas: #d9efed;
-
-
-    --fuentePrincipal: 'Roboto', sans-serif;
-    --fuenteSecundaria: 'Lato', sans-serif;
+    --fuentePrincipal: 'Montserrat', sans-serif;
+    --colorPrincipal: #1B396A;
+    --fondo: #e3eef5;
+    --blanco: #ffffff;
+    --borde: #cacdcf;
 }
 
 html {
     font-size: 62.5%;
     box-sizing: border-box;
-    scroll-behavior: smooth;
 }
 
 body {
@@ -41,9 +34,8 @@ body {
 h1,
 h2,
 h3 {
-    font-weight: 900;
-    font-family: var(--fuenteSecundaria);
-    margin: calc(var(--separacion) / 2) 0;
+    font-weight: 700;
+    font-family: var(--fuentePrincipal);
 }
 
 img {
@@ -54,20 +46,18 @@ img {
 
 /* contenedor resultado */
 body {
-    background-color: var(--fondopreguntas);
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    background-color: var(--fondo);
+
 }
 
-.header-preguntas {
-    position: relative;
-    filter: brightness(0.8);
-    z-index: 1;
-    width: 100%;
-    height: 20rem;
-    background-color: var(--headercolor);
+.header-resulado {
+    max-width: 60rem;
+    height: 15rem;
+    margin-top: 2rem;
+    border-radius: 1rem;
+    background-image: url('../img//jpg/fondoform.jpg');
+    background-position: center;
+    background-size: cover;
 }
 
 .main-resultado{
@@ -75,20 +65,28 @@ body {
     max-width: 60rem;
     height: 30rem;
     z-index: 2;
-    border: 1px solid var(--blanco);
-    border-radius: 5px;
+    margin-top: 2rem;
+    border-radius: 1rem;
     background-color: var(--blanco);
-    display: flex;
-    padding: 1rem;
-    justify-content: center;
-    align-items: flex-end;
-
+    padding: 2rem;
+    overflow: hidden;
 }
 
-.btnBack{
+.main-resultado::before{
+    content: '';
+   position: absolute;
+   left: 0;
+   right: 0;
+   top: 0;
+   height: 1rem;
+
+   background-color: var(--colorPrincipal);
+}
+
+.btn-finalizar{
     width: 100%;
     padding:1rem;
-    background-color: black;
+    background-color: var(--colorPrincipal);
     text-align: center;
     border-radius: 5px;
     text-decoration: none;
@@ -97,7 +95,9 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
-.btnBack:hover{
+
+
+.btn-finalizar:hover{
     transform: scale(.99);
 }
 

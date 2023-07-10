@@ -1,9 +1,6 @@
 @extends('template.plantilla')
 
 @section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="{{ asset('css/test.css') }}" rel="stylesheet" />
 @endsection
 
@@ -16,12 +13,12 @@
 @endsection
 
 <div>
-    <header class="header-preguntas" style="background-color:{{ $color }}"></header>
+    <header class="header-preguntas oscuro" style="background-color:{{ $color }}"></header>
 
     <div class="contenedor-preguntas">
 
         <div class="contenedor contenido-preguntas">
-            <form id="test-form" action="{{ route('guardarTest') }}" method="POST">
+            <form id="test-form" action="{{ route('testRealizado.store') }}" method="POST">
                 @csrf
                 <input type="hidden" name="test_id" value="{{ encrypt($test->id) }}">
                 <input type="hidden" name="nombre" value="{{ encrypt($nombre) }}">
@@ -34,7 +31,7 @@
                 @foreach ($preguntas as $unapregunta)
                     <div class="pregunta test-validar">
                         <label value="{{ $unapregunta->id }}">{{ $unapregunta->pregunta }}</label>
-
+          
                         @foreach ($unapregunta->opciones as $unaopcion)
                             <div>
                                 <label class="radio-contenedor">
