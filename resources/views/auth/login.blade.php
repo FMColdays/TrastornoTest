@@ -7,57 +7,51 @@
 @section('titulo', 'Login')
 
 @section('cuerpo')
-    <main class="main">
-        @if (session('mensaje'))
-            <div class="error-login">
-                {{ session('mensaje') }}
-            </div>
-        @endif
-        <section class="contenedor-login">
-            <section class="contenedor-img">
+    @if (session('mensaje'))
+        <div class="error-login">
+            {{ session('mensaje') }}
+        </div>
+    @endif
+    <main>
+        <div class="contenedor-img">
+            <p class="titulo-img">Test TecNM / ITTG</p>
+            <picture>
+                <source sizes="1920w" srcset=" {{ asset('img/avif/nombretec.avif') }} 1920w" type="image/avif">
+                <source sizes="1920w" srcset="{{ asset('img/webp/nombretec.webp') }} 1920w" type="image/webp">
+                <source sizes="1920w" srcset="{{ asset('img/jpg/nombretec.png') }} 1920w" type="image/jpeg">
+                <img loading="lazy" decoding="async" src="{{ asset('img/jpg/nombretec.png') }}" lazyalt="imagen"
+                    width="500" height="300">
+            </picture>
+        </div>
 
-                <h2 class="nombretec-titulo">Test TecNM / ITTG</h2>
-
-                <picture>
-                    <source sizes="1920w" srcset=" {{ asset('img/avif/nombretec.avif') }} 1920w" type="image/avif">
-                    <source sizes="1920w" srcset="{{ asset('img/webp/nombretec.webp') }} 1920w" type="image/webp">
-                    <source sizes="1920w" srcset="{{ asset('img/jpg/nombretec.png') }} 1920w" type="image/jpeg">
-                    <img loading="lazy" decoding="async" src="{{ asset('img/jpg/nombretec.png') }}" lazyalt="imagen"
-                        width="500" height="300">
-                </picture>
-            </section>
-
-            <section class="contenedor-contenido">
-                <form class="form-login" action="{{ route('validar') }}" method="POST">
-                    @csrf
-                    <p class="form-login__titulo">Iniciar Sesión</>
-                    <div class="form-login-input">
-                        <span class="form-login__icono">
-                            <i class="fa fa-user-circle"></i>
-                        </span>
-                        <input class="form-login__correo" type="email" name="correo" id="usuario"
-                            placeholder="Coreo Institucional">
-                    </div>
-                    <div class="form-login-input">
-                        <span class="form-login__icono">
-                            <i class="fa fa-lock"></i>
-                        </span>
-                        <input class="form-login__contraseña" name="contraseña" id="contraseña" type="password"
+        <form class="contenedor-contenido" action="{{ route('validar') }}" method="POST">
+            @csrf
+            <h1 class="titulo-contenido">Iniciar sesión</h1>
+            <div class="contenido">
+                <div class="contenido-inputs">
+                    <label for="correo">Correo</label>
+                    <input class="input-correo" id="correo" type="text" name="correo" placeholder="Correo">
+                </div>
+                <div class="contenido-inputs">
+                    <label for="contraseña">Contraseña</label>
+                    <div class="contendor-contraseña">
+                        <input class="input-contraseña" id="contraseña" type="password" name="contraseña"
                             placeholder="Contraseña">
-                        <span class="togglePassword" id="togglePassword"><i id="ojo" class="fa-solid fa-eye"></i></span>
+                        <span id="ojo" class="fa-solid fa-eye"></span>
                     </div>
+                </div>
+            </div>
+            <div class="contendor-inicio">
+                <input class="iniciar" type="submit" value="Iniciar sesión">
+                <a class="registro" href="{{ route('registro') }}">Registrarse</a>
+            </div>
+        </form>
 
-                    <input class="btn-sesion" type="submit" value="Iniciar sesión">
-                </form>
-                <a class="a-registrarse" href="{{ route('registro') }}">Registrarse</a>
-            </section>
-
-        </section>
     </main>
 @endsection
 
 
 @section('js')
     <script src="{{ asset('js/img.js') }}"></script>
-    <script src="{{asset('js/login.js')}}"></script>
+    <script src="{{ asset('js/login.js') }}"></script>
 @endsection

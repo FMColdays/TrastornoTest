@@ -1,14 +1,14 @@
 let valorOpcion;
 $("#buscador").select2();
 $(document).ready(function () {
-    $(".input-registro").on("input", function () {
-        $(this).siblings(".error-registro").hide();
-    });
-    
+
     valorOpcion = $("#buscador").val();
+    console.log(valorOpcion);
     opciones = document.querySelectorAll(".opcionesI");
+
     opciones.forEach((opcion) => {
-        if (opcion.id !== valorOpcion) {
+        console.log(opcion.value);
+        if (opcion.value !== valorOpcion) {
             opcion.style.display = "none";
         } else {
             opcion.style.display = "block";
@@ -17,9 +17,12 @@ $(document).ready(function () {
 
     $("#buscador").on("change", function () {
         valorOpcion = $(this).val();
+        console.log(valorOpcion);
         opciones = document.querySelectorAll(".opcionesI");
+        
         opciones.forEach((opcion) => {
-            if (opcion.id !== valorOpcion) {
+            console.log(opcion.value);
+            if (opcion.value !== valorOpcion) {
                 opcion.style.display = "none";
             } else {
                 opcion.style.display = "block";
@@ -33,13 +36,15 @@ const formulario = document.getElementById("formulario");
 const inputs = document.querySelectorAll(".pregunta .input-registro");
 
 const expresiones = {
+    nombre: /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/,
     numeroControl: /^\d{8}$/,
-    correo: /^[A-Za-z0-9._%+-]+@tuxtla\.tecnm\.mx$/,
+    correo: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     password: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/,
     edad: /^\d+$/,
 };
 
 const campos = {
+    nombre: false,
     numeroControl: false,
     correo: false,
     contraseña: false,
@@ -140,6 +145,7 @@ const validarFormulario = (e) => {
     const valor = e.target.value;
 
     switch (campo) {
+        case "nombre":
         case "numeroControl":
         case "correo":
         case "edad":

@@ -96,6 +96,35 @@ a {
     }
 }
 
+.contenedor-logout {
+    display: flex;
+    justify-content: center;
+    align-items: center
+}
+
+.logout-icono i {
+    font-size: 2rem;
+}
+
+.logout-icono {
+    display: block;
+}
+
+.logout-text {
+    display: none;
+}
+
+
+@media (min-width: 576px) {
+    .logout-icono {
+        display: none;
+    }
+
+    .logout-text {
+        display: block;
+    }
+}
+
 /* Tests */
 
 .main-test {

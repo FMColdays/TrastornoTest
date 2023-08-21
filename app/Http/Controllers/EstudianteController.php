@@ -5,16 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use App\Http\Requests\StoreEstudianteRequest;
 use App\Http\Requests\UpdateEstudianteRequest;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\Models\Carrera;
+use App\Models\Instituto;
+use App\Models\Semestre;
+use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class EstudianteController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index(Request $request)
     {
         try {
@@ -22,7 +23,7 @@ class EstudianteController extends Controller
             $buscar = trim($request->input('buscar'));
 
             if ($buscar == '') {
-                $estudiantes = Estudiante::latest()->paginate(9);
+                $estudiantes = Estudiante::latest()->paginate(10);
             } else {
                 $estudiantes = Estudiante::when($buscar, function ($query, $buscar) {
                     return $query->where(function ($query) use ($buscar) {
@@ -40,16 +41,12 @@ class EstudianteController extends Controller
             }
 
             if ($request->ajax()) {
-                $view = view('admin.load', compact('estudiantes'))->render();
+                $view = view('admin.estudiantes.load', compact('estudiantes'))->render();
                 return response()->json(['view' => $view, 'nextPageUrl' => $estudiantes->nextPageUrl()]);
             }
 
-
-
-            return view('admin.estudiantes', compact('estudiantes'));
-        } catch (AuthorizationException) {
-            return redirect('@me');
-        } catch (ModelNotFoundException) {
+            return view('admin.estudiantes.index', compact('estudiantes'));
+        } catch (Exception) {
             return redirect('@me');
         }
     }
@@ -57,7 +54,24 @@ class EstudianteController extends Controller
 
     public function create()
     {
-        //
+        try {
+            $this->authorize('crearEstudiante', App\Models\Estudiante::class);
+            $datosTablaPivot = DB::table('carrera_instituto')
+            ->join('institutos', 'carrera_instituto.instituto_id', '=', 'institutos.id')
+            ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
+            ->select(
+                'institutos.nombre_instituto',
+                'carreras.nombre_carrera',
+                'carrera_instituto.instituto_id',
+                'carrera_instituto.estado'
+            )
+            ->get();
+            $institutos = Instituto::all();
+            $semestres = Semestre::all();
+            return view('admin.estudiantes.agregar', compact('institutos', 'datosTablaPivot', 'semestres'));
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
     /**
@@ -65,7 +79,17 @@ class EstudianteController extends Controller
      */
     public function store(StoreEstudianteRequest $request)
     {
-        //
+
+        try {
+            $estudiante = new Estudiante();
+            $estudiante->fill($request->all());
+            $estudiante->contraseña = Hash::make($request->input('contraseña'));
+            $estudiante->save();
+
+            return redirect('estudiantes');
+        } catch (Exception) {
+            return redirect('login')->with('mensaje', 'Algo salió mal, intentelo otra vez');
+        }
     }
 
     /**
@@ -83,10 +107,11 @@ class EstudianteController extends Controller
     {
         try {
             $this->authorize('editarEstudiante', $estudiante);
-            return view('admin.estudiante', compact('estudiante'));
-        } catch (AuthorizationException) {
-            return redirect('@me');
-        } catch (ModelNotFoundException) {
+            $institutos = Instituto::all();
+            $carreras = Carrera::all();
+            $semestres = Semestre::all();
+            return view('admin.estudiantes.editar', compact('estudiante', 'institutos', 'carreras', 'semestres'));
+        } catch (Exception) {
             return redirect('@me');
         }
     }
@@ -98,13 +123,11 @@ class EstudianteController extends Controller
     {
         try {
             $this->authorize('actualizarEstudiante', $estudiante);
-
-            $estudiante->confirmacion = $request->input('confirmacion');
+            $estudiante->fill($request->all());
+            $estudiante->confirmacion =  $request->input('confirmacion');
             $estudiante->save();
-            return redirect(route('estudiante.index'));
-        } catch (AuthorizationException) {
-            return redirect('@me');
-        } catch (ModelNotFoundException) {
+            return redirect(route('estudiantes.index'));
+        } catch (Exception) {
             return redirect('@me');
         }
     }

@@ -22,7 +22,8 @@ class RegistrarseStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'numeroControl' =>  ['required','regex:/^\d{8}$/', 'unique:estudiantes,numeroControl'],
+            'nombre' =>  ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
+            'numeroControl' =>  ['required', 'regex:/^\d{8}$/', 'unique:estudiantes,numeroControl'],
             'correo' => ['required', 'regex:/^[A-Za-z0-9._%+-]+@tuxtla\.tecnm\.mx$/', 'unique:estudiantes,correo'],
             'contraseña' => ['required', 'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/'],
             'contraseña2' => 'required|same:contraseña',
@@ -37,6 +38,10 @@ class RegistrarseStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
+
+            'nombre.required' => 'El nombre es requerido',
+            'nombre.regex' => 'Ingrese un nombre valido',
+
             'numeroControl.required' => 'El numero de control es requerido',
             'numeroControl.unique' => 'Este número de control ya está registrado',
             'numeroControl.regex' => 'Ingrese un numero de control valido',

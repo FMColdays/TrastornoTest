@@ -31,7 +31,7 @@
                 @foreach ($preguntas as $unapregunta)
                     <div class="pregunta test-validar">
                         <label value="{{ $unapregunta->id }}">{{ $unapregunta->pregunta }}</label>
-          
+
                         @foreach ($unapregunta->opciones as $unaopcion)
                             <div>
                                 <label class="radio-contenedor">

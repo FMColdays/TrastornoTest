@@ -9,7 +9,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Estudiante extends Authenticatable
 {
-    protected $fillable = ['numeroControl', 'correo', 'instituto_id', 'carrera_id', 'semestre_id', 'edad', 'sexo'];
+    protected $fillable = ['nombre', 'numeroControl', 'correo', 'instituto_id', 'carrera_id', 'semestre_id', 'edad', 'sexo'];
     use HasApiTokens, HasFactory, Notifiable;
 
 
@@ -37,6 +37,11 @@ class Estudiante extends Authenticatable
     public function testRealizado()
     {
         return $this->hasOne(testRealizado::class);
+    }
+
+    public function resultado()
+    {
+        return $this->hasOne(Resultado::class);
     }
 
     public function getRouteKeyName()

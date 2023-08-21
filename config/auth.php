@@ -14,7 +14,7 @@ return [
         ],
         'guard_administrador' => [
             'driver' => 'session',
-            'provider' => 'provide  rs_administrador',
+            'provider' => 'providers_administrador',
         ],
         'guard_estudiantes' => [
             'driver' => 'session',
@@ -25,6 +25,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
+
             'model' => App\Models\User::class,
         ],
         'providers_administrador' => [

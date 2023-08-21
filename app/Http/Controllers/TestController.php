@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pregunta;
 use App\Models\Test;
 use App\Models\TestRealizado;
+use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
@@ -18,32 +19,27 @@ class TestController extends Controller
         try {
             $this->authorize('verTestAdmin', App\Models\Test::class);
             $tests = Test::all();
-            return view('admin.test', compact('tests'));
+            return view('admin.tests.index', compact('tests'));
         } catch (AuthorizationException) {
             return redirect('@me');
         }
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        try {
+            $this->authorize('crearTest', App\Models\Test::class);
+            return view('admin.tests.agregar');
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         //
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Test $test)
     {
         try {
@@ -63,25 +59,16 @@ class TestController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Test $test)
     {
-        //
+        return view('admin.tests.editar', compact('test'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Test $test)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Test $test)
     {
         //

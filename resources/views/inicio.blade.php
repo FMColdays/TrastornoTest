@@ -23,12 +23,15 @@
         <div class="contenedor-ancle">
             @if (auth()->user()->testRealizado()->count() > 8)
                 <a href="javascript:generarPDF()"><i class="fa-solid fa-file-pdf fa-xl"></i></a>
+                <div id="user-name" data-name="{{ auth()->user()->nombre }}"></div>
                 <div id="svg-container" style="display: none">
-                    {{ QrCode::size(500)->generate('http://127.0.0.1:8000/estudiante/' . auth()->user()->numeroControl . '/edit') }}
+                    {{ QrCode::size(500)->generate('http://127.0.0.1:8000/estudiantes/' . auth()->user()->numeroControl . '/edit') }}
                 </div>
             @endif
-
-            <a href="{{ route('logout') }}">Cerrar sesion</a>
+            <div class="contenedor-logout">
+                <a class="logout-icono" href="{{ route('logout') }}"><i class="fa-solid fa-right-from-bracket"></i></a>
+                <a class="logout-text" href="{{ route('logout') }}">Cerrar sesion</a>
+            </div>
         </div>
     </header>
 

@@ -13,6 +13,14 @@ class EstudiantePolicy
         else return false;
     }
 
+    
+    public function crearEstudiante(Usuario $usuario): bool
+    {
+        if($usuario instanceof Administrador) return true;
+        else return false;
+    }
+
+
     public function editarEstudiante(Usuario $usuario): bool
     {
         if($usuario instanceof Administrador) return true;

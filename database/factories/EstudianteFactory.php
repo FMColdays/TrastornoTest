@@ -17,6 +17,7 @@ class EstudianteFactory extends Factory
     public function definition(): array
     {
         return [
+            'nombre' => $this->faker->name,
             'numeroControl' => $this->faker->unique()->randomNumber(),
             'correo' => $this->faker->unique()->safeEmail(),
             'contraseña' => bcrypt('password'),

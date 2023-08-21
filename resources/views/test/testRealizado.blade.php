@@ -45,19 +45,16 @@
                         </div>
                     @endforeach
 
-
-
                 </div>
 
             </div>
         </div>
     </div>
-
     <footer class="footer">
         <p><span>Test</span> TecNM</p>
     </footer>
 @endsection
 
 @section('js')
-    <script src="{{asset('js/img.js')}}"></script>
+    <script src="{{ asset('js/img.js') }}"></script>
 @endsection

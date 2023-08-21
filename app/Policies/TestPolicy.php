@@ -12,5 +12,10 @@ class TestPolicy
         if ($usuario instanceof Administrador) return true;
         else return false;
     }
-    
+
+    public function crearTest(Usuario $usuario): bool
+    {
+        if ($usuario instanceof Administrador) return true;
+        else return false;
+    }
 }

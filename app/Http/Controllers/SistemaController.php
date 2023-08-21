@@ -10,14 +10,15 @@ use App\Models\Instituto;
 use App\Models\Semestre;
 use App\Models\Test;
 use App\Models\TestRealizado;
-use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Auth\Access\AuthorizationException;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class SistemaController extends Controller
 {
+
     public function login()
     {
         return view('auth.login');
@@ -25,31 +26,35 @@ class SistemaController extends Controller
 
     public function validar(Request $request)
     {
-        $encontrado = Administrador::where('correo', $request->input('correo'))->first();
+        try {
+            $encontrado = Administrador::where('correo', $request->input('correo'))->first();
 
-        if (is_null($encontrado)) {
-            $encontrado = Estudiante::where('correo', $request->input('correo'))->first();
             if (is_null($encontrado)) {
-                return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
+                $encontrado = Estudiante::where('correo', $request->input('correo'))->first();
+                if (is_null($encontrado)) {
+                    return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
+                } else {
+                    $conincide = Hash::check($request->input('contraseña'), $encontrado->contraseña);
+                    if ($conincide) {
+                        Auth::guard('guard_estudiantes')->login($encontrado);
+                        $_SESSION['AuthGuard'] = 'guard_estudiantes';
+                        return redirect('@me');
+                    } else {
+                        return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
+                    }
+                }
             } else {
-                $conincide = Hash::check($request->input('contraseña'), $encontrado->contraseña);
+                $conincide = Hash::check($request->input('contraseña'),  $encontrado->contraseña);
                 if ($conincide) {
-                    Auth::guard('guard_estudiantes')->login($encontrado);
-                    $_SESSION['AuthGuard'] = 'guard_estudiantes';
+                    Auth::guard('guard_administrador')->login($encontrado);
+                    $_SESSION['AuthGuard'] = 'guard_administrador';
                     return redirect('@me');
                 } else {
                     return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
                 }
             }
-        } else {
-            $conincide = Hash::check($request->input('contraseña'),  $encontrado->contraseña);
-            if ($conincide) {
-                Auth::guard('guard_administrador')->login($encontrado);
-                $_SESSION['AuthGuard'] = 'guard_administrador';
-                return redirect('@me');
-            } else {
-                return redirect('login')->with('mensaje', 'Datos erróneos. Por favor, inténtelo otra vez');
-            }
+        } catch (Exception) {
+            return redirect('login')->with('mensaje', 'Algo salió mal, intentelo otra vez');
         }
     }
 
@@ -61,22 +66,37 @@ class SistemaController extends Controller
 
     public function registro()
     {
+
+        $datosTablaPivot = DB::table('carrera_instituto')
+        ->join('institutos', 'carrera_instituto.instituto_id', '=', 'institutos.id')
+        ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
+        ->select(
+            'institutos.nombre_instituto',
+            'carreras.nombre_carrera',
+            'carrera_instituto.instituto_id',
+            'carrera_instituto.estado'
+        )
+        ->get();
+
         $institutos = Instituto::all();
-        $carreras = Carrera::all();
         $semestres = Semestre::all();
-        return view('auth.registro', compact('institutos', 'carreras', 'semestres'));
+        return view('auth.registro', compact('institutos', 'datosTablaPivot', 'semestres'));
     }
 
     public function registrarse(RegistrarseStoreRequest $request)
     {
-        $estudiante = new Estudiante();
-        $estudiante->fill($request->all());
-        $estudiante->contraseña = Hash::make($request->input('contraseña'));
-        $estudiante->save();
+        try {
+            $estudiante = new Estudiante();
+            $estudiante->fill($request->all());
+            $estudiante->contraseña = Hash::make($request->input('contraseña'));
+            $estudiante->save();
 
-        Auth::guard('guard_estudiantes')->login($estudiante);
-        $_SESSION['AuthGuard'] = 'guard_estudiantes';
-        return redirect('@me');
+            Auth::guard('guard_estudiantes')->login($estudiante);
+            $_SESSION['AuthGuard'] = 'guard_estudiantes';
+            return redirect('@me');
+        } catch (Exception) {
+            return redirect('login')->with('mensaje', 'Algo salió mal, intentelo otra vez');
+        }
     }
 
 
@@ -90,5 +110,4 @@ class SistemaController extends Controller
             return view('inicio', compact('tests', 'testRealizados'));
         }
     }
-
 }

@@ -15,11 +15,12 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/normalize.css') }}">
     <link rel="stylesheet" href="{{ asset('css/inicioAdmin.css') }}">
-    <title>Inicio</title>
+    @yield('cssEstudiabte')
+    <title>@yield('tituloAdm')</title>
 </head>
 
 <body id="body">
-    <header>
+    <header class="header-principal">
         <div class="icon__menu">
             <i class="fas fa-bars" id="btn_open"></i>
         </div>
@@ -40,21 +41,21 @@
                 </div>
             </a>
 
-            <a href="{{ route('estudiante.index') }}" class="{{ Request::path() == 'estudiante' ? 'selected' : '' }}">
+            <a href="{{ route('estudiantes.index') }}" class="{{ Request::path() == 'estudiantes' ? 'selected' : '' }}">
                 <div class="option">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <h4>Estudiantes</h4>
                 </div>
             </a>
 
-            <a href="{{ route('estudiante.index') }}">
+            <a href="{{ route('institutos.index') }}" class="{{ Request::path() == 'institutos' ? 'selected' : '' }}">
                 <div class="option">
                     <i class="fa-solid fa-school"></i>
                     <h4>Instituto</h4>
                 </div>
             </a>
 
-            <a href="{{ route('estudiante.index') }}">
+            <a href="{{ route('carreras.index') }}" class="{{ Request::path() == 'carreras' ? 'selected' : '' }}">
                 <div class="option">
                     <i class="fa-solid fa-suitcase"></i>
                     <h4>Carrera</h4>
@@ -77,12 +78,12 @@
 
         </div>
 
-
     </div>
 
     <main>
         @yield('contenido')
     </main>
+
     @yield('jsEstudiante')
     <script src="{{ asset('js/inicioAdmin.js') }}"></script>
 </body>

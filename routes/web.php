@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CarreraController;
 use App\Http\Controllers\EstudianteController;
+use App\Http\Controllers\InstitutoController;
 use App\Http\Controllers\SistemaController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\TestRealizadoController;
@@ -29,10 +31,12 @@ Route::post('registrarse', [SistemaController::class, 'registrarse'])->name('reg
 Route::get('@me', [SistemaController::class, 'inicio'])->name('@me')->middleware('auth');
 
 // Administrador
-Route::resource('estudiante', EstudianteController::class)->middleware('auth');
+Route::resource('estudiantes', EstudianteController::class)->middleware('auth');
+Route::resource('institutos', InstitutoController::class)->middleware('auth');
+Route::resource('carreras', CarreraController::class)->middleware('auth');
 Route::resource('test', TestController::class)->middleware('auth');
 Route::resource('testRealizado', TestRealizadoController::class)->middleware('auth');
 
 
 // Estudiantes
-Route::get('resultado', [TestRealizadoController::class, 'resultado'])->name('resultado');
+Route::get('resultado', [TestRealizadoController::class, 'resultado'])->name('resultado')->middleware('auth');

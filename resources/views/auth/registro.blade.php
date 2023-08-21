@@ -19,6 +19,18 @@
                 </div>
 
                 <div class="pregunta">
+                    <label class="label-registro" for="nombre">Nombre completo</label>
+                    <input class="input-registro" id="nombre" type="text" name="nombre" placeholder="Nombre completo"
+                        value={{ old('nombre') }}>
+
+                    @error('nombre')
+                        <div class="error-registro">
+                            {{ $message }}
+                        </div>
+                    @enderror
+                </div>
+
+                <div class="pregunta">
                     <label class="label-registro" for="numeroControl">Numero de control</label>
                     <input class="input-registro" id="numeroControl" type="text" name="numeroControl"
                         placeholder="Numero de control" value={{ old('numeroControl') }}>
@@ -31,7 +43,7 @@
                 </div>
 
                 <div class="pregunta">
-                    <label class="label-registro" for="correo">Correo institucional</label>
+                    <label class="label-registro" for="correo">Correo</label>
                     <input class="input-registro" id="correo" type="email" name="correo"
                         placeholder="Correo institucional" value={{ old('correo') }}>
 
@@ -78,7 +90,8 @@
                     <label class="label-registro" for="instituto">Instituto</label>
                     <select id="buscador" class="section-registro" name="instituto_id">
                         @foreach ($institutos as $instituto)
-                            <option value="{{ $instituto->id }}" {{ old('instituto_id') == $instituto->id ? 'selected' : '' }}>
+                            <option value="{{ $instituto->id }}"
+                                {{ old('instituto_id') == $instituto->id ? 'selected' : '' }}>
                                 {{ $instituto->nombre_instituto }}
                             </option>
                         @endforeach
@@ -86,31 +99,31 @@
                 </div>
 
                 <div class="pregunta">
-                    <label class="label-registro" for="carrera">Carrera</label>
+                    <label class="label-registro" for=" ">Carrera</label>
                     <select id="carrera" class="section-registro" name="carrera_id" required>
-                        @foreach ($carreras as $carrera)
-                            <option class="opcionesI" id="{{ $carrera->instituto_id }}" value="{{ $carrera->id }}"
-                                {{ old('carrera_id') == $carrera->id ? 'selected' : '' }}>
-                                {{ $carrera->nombre_carrera }}
+
+
+                        @foreach ($datosTablaPivot as $carrera)
+                            <option class="opcionesI" value="{{ $carrera->instituto_id }}">
+                                {{ $carrera->nombre_carrera }} → {{ $carrera->estado }}
                             </option>
                         @endforeach
+
                     </select>
                 </div>
-                
-
 
                 <div class="pregunta">
                     <label class="label-registro" for="semestre">Semestre</label>
-                    <select class="section-registro" name="semestre_id">
+                    <select id="semestre" class="section-registro" name="semestre_id">
                         @foreach ($semestres as $semestre)
-                            <option value="{{ $semestre->id }}" {{ old('semestre_id') == $semestre->id ? 'selected' : '' }}>
+                            <option value="{{ $semestre->id }}"
+                                {{ old('semestre_id') == $semestre->id ? 'selected' : '' }}>
                                 {{ $semestre->numero_semestre }}
                             </option>
                         @endforeach
                     </select>
                 </div>
-                
-                
+
                 <div class="pregunta">
                     <label class="label-registro" for="edad">Edad</label>
                     <input class="input-registro" id="edad" type="text" name="edad" placeholder="Edad"
@@ -129,7 +142,7 @@
                         <option value="1" {{ old('sexo') == 1 ? 'selected' : '' }}>Mujer</option>
                     </select>
                 </div>
-                
+
                 <input class="btnregistrar" id="btnregistrar" type="submit" value="Registrar">
             </form>
         </div>
