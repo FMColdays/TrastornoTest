@@ -41,7 +41,17 @@ class CarreraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $this->authorize('crearCarrera', App\Models\Carrera::class);
+
+        foreach ($request->modalidad as $modalidad) {
+            $carrera = new Carrera();
+            $carrera->nombre_carrera = $request->nombre;
+            $carrera->modalidad = $modalidad;
+            $carrera->save();
+        }
+
+        return redirect('carreras');
     }
 
     /**
@@ -57,7 +67,7 @@ class CarreraController extends Controller
      */
     public function edit(Carrera $carrera)
     {
-        return view('admin.carreras.editar');
+        return view('admin.carreras.editar', compact('carrera'));
     }
 
     /**
@@ -65,7 +75,9 @@ class CarreraController extends Controller
      */
     public function update(Request $request, Carrera $carrera)
     {
-        //
+        $carrera->nombre_carrera = $request->nombre;
+        $carrera->save();
+        return redirect()->route('carreras.index');
     }
 
     /**
@@ -73,6 +85,7 @@ class CarreraController extends Controller
      */
     public function destroy(Carrera $carrera)
     {
-        //
+        $carrera->delete();
+        return redirect()->route('carreras.index');
     }
 }

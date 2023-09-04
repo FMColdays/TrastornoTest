@@ -100,12 +100,14 @@
 
                 <div class="pregunta">
                     <label class="label-registro" for=" ">Carrera</label>
+
                     <select id="carrera" class="section-registro" name="carrera_id" required>
 
 
                         @foreach ($datosTablaPivot as $carrera)
-                            <option class="opcionesI" value="{{ $carrera->instituto_id }}">
-                                {{ $carrera->nombre_carrera }} → {{ $carrera->estado }}
+                            <option class="opcionesI" value="{{ $carrera->id }}"
+                                data-instituto="{{ $carrera->instituto_id }}">
+                                {{ $carrera->nombre_carrera }} → {{ $carrera->modalidad }}
                             </option>
                         @endforeach
 

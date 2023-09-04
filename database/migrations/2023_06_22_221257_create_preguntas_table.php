@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('test_id');
             $table->foreign('test_id')->references('id')->on('tests')->onDelete('cascade');
-            $table->string('pregunta', 400);
-            $table->string('tipo_pregunta');
-            $table->string('categoria');           
+            $table->string('pregunta', 400); 
+            $table->timestamps();        
         });
     }
 

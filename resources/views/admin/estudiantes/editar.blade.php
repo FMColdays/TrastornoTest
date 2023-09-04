@@ -8,6 +8,7 @@
     <form class="contenedor" action="{{ route('estudiantes.update', $estudiante) }}" method="post">
         @method('PUT')
         @csrf
+        <a class="btn volver" href="{{ route('estudiantes.index') }}"><i class="fas fa-chevron-circle-left"></i> Volver</a>
         <h1 class="agregar-titulo sombra">Editar Estudiante</h1>
 
 
@@ -71,29 +72,16 @@
 
                     <select id="carrera" class="input-agregar" name="carrera_id" required>
 
-                        @foreach ($carreras as $carrera)
+                        @foreach ($datosTablaPivot as $carrera)
                             @if ($carrera->id == $estudiante->carrera_id)
-                                <option value="{{ $estudiante->carrera_id }}" selected>
-                                    {{ $estudiante->carrera->nombre_carrera }} →
-                                    @php
-                                        $relacion = DB::table('carrera_instituto')
-                                            ->where('instituto_id', $carrera->institutos[0]->pivot->instituto_id)
-                                            ->where('carrera_id', $carrera->id)
-                                            ->first();
-                                        echo $relacion->estado;
-                                    @endphp
+                                <option class="opcionesI" value="{{ $carrera->id }}"
+                                    data-instituto="{{ $carrera->instituto_id }}" selected>
+                                    {{ $carrera->nombre_carrera }} → {{ $carrera->modalidad }}
                                 </option>
                             @else
-                                <option class="opcionesI" id="{{ $carrera->institutos[0]->pivot->instituto_id }}"
-                                    value="{{ $carrera->id }}" {{ old('carrera_id') == $carrera->id ? 'selected' : '' }}>
-                                    {{ $carrera->nombre_carrera }} →
-                                    @php
-                                        $relacion = DB::table('carrera_instituto')
-                                            ->where('instituto_id', $carrera->institutos[0]->pivot->instituto_id)
-                                            ->where('carrera_id', $carrera->id)
-                                            ->first();
-                                        echo $relacion->estado;
-                                    @endphp
+                                <option class="opcionesI" value="{{ $carrera->id }}"
+                                    data-instituto="{{ $carrera->instituto_id }}">
+                                    {{ $carrera->nombre_carrera }} → {{ $carrera->modalidad }}
                                 </option>
                             @endif
                         @endforeach

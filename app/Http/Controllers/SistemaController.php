@@ -72,11 +72,11 @@ class SistemaController extends Controller
         ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
         ->select(
             'institutos.nombre_instituto',
+            'carreras.id',
             'carreras.nombre_carrera',
-            'carrera_instituto.instituto_id',
-            'carrera_instituto.estado'
-        )
-        ->get();
+            'carreras.modalidad',
+            'carrera_instituto.instituto_id',   
+        )->get();
 
         $institutos = Instituto::all();
         $semestres = Semestre::all();

@@ -54,24 +54,23 @@ class EstudianteController extends Controller
 
     public function create()
     {
-        try {
-            $this->authorize('crearEstudiante', App\Models\Estudiante::class);
-            $datosTablaPivot = DB::table('carrera_instituto')
+
+        $this->authorize('crearEstudiante', App\Models\Estudiante::class);
+        $datosTablaPivot = DB::table('carrera_instituto')
             ->join('institutos', 'carrera_instituto.instituto_id', '=', 'institutos.id')
             ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
             ->select(
                 'institutos.nombre_instituto',
                 'carreras.nombre_carrera',
+                'carreras.modalidad',
                 'carrera_instituto.instituto_id',
-                'carrera_instituto.estado'
-            )
-            ->get();
-            $institutos = Instituto::all();
-            $semestres = Semestre::all();
-            return view('admin.estudiantes.agregar', compact('institutos', 'datosTablaPivot', 'semestres'));
-        } catch (Exception) {
-            return redirect('@me');
-        }
+            )->get();
+
+    
+
+        $institutos = Instituto::all();
+        $semestres = Semestre::all();
+        return view('admin.estudiantes.agregar', compact('institutos', 'datosTablaPivot', 'semestres'));
     }
 
     /**
@@ -88,7 +87,7 @@ class EstudianteController extends Controller
 
             return redirect('estudiantes');
         } catch (Exception) {
-            return redirect('login')->with('mensaje', 'Algo salió mal, intentelo otra vez');
+            return redirect('login')->with('mensaje', 'Algo salió mal, inténtelo otra vez');
         }
     }
 
@@ -107,10 +106,20 @@ class EstudianteController extends Controller
     {
         try {
             $this->authorize('editarEstudiante', $estudiante);
+            $datosTablaPivot = DB::table('carrera_instituto')
+                ->join('institutos', 'carrera_instituto.instituto_id', '=', 'institutos.id')
+                ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
+                ->select(
+                    'institutos.nombre_instituto',
+                    'carreras.nombre_carrera',
+                    'carreras.id',
+                    'carreras.modalidad',
+                    'carrera_instituto.instituto_id',
+                )->get();
+
             $institutos = Instituto::all();
-            $carreras = Carrera::all();
             $semestres = Semestre::all();
-            return view('admin.estudiantes.editar', compact('estudiante', 'institutos', 'carreras', 'semestres'));
+            return view('admin.estudiantes.editar', compact('estudiante', 'institutos', 'datosTablaPivot', 'semestres'));
         } catch (Exception) {
             return redirect('@me');
         }

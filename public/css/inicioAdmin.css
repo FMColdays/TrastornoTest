@@ -397,6 +397,8 @@ a.selected {
 }
 
 .card-index {
+    display: flex;
+    justify-content: space-between;
     padding: 2rem;
     background-color: rgb(236, 239, 241);
     margin: 2rem;
@@ -536,6 +538,15 @@ a.selected {
     align-items: center;
 }
 
+.contenedor-plus.preguntas {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.contenedor-respuesta {
+    position: relative;
+}
+
 .minus-dinamico {
     position: absolute;
     right: 10px;
@@ -578,83 +589,92 @@ a.selected {
     overflow-y: auto;
 }
 
-.contenedor-modalidades{
+.contenedor-modalidades {
     border: 1px solid rgb(0 0 0 / 0.2);
     border-radius: .5rem;
+    padding: .5rem;
     margin-bottom: 1rem;
     overflow: hidden;
-}
-
-.contenedor-modalidades-etiquetas{
-    padding: 1rem;
-}
-
-.contenedor-modalidades-aceptar{
-    margin-top: 1rem;
-    text-align: center;
-    color: white;
-    background-color: rgb(8, 129, 8);
-    cursor: pointer;
     transition: background-color 0.3s ease-in-out;
 }
 
-.contenedor-modalidades-aceptar:hover{
-    background-color: rgb(0, 149, 0);
+.contenedor-modalidades:hover {
+    background-color: rgb(102 182 240 / 0.4);
 }
 
-.contenido-etiquetas{
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    margin-top: 1rem;
+.modalidades {
+    display: block;
+    cursor: pointer;
+    user-select: none;
 }
 
-.etiquetas{
-    position: relative;
-}
 
-.etiquetas label{
+.carrera-agregada {
+    width: 100%;
+    border: 1px solid rgb(0 0 0 / 0.2);
     padding: .5rem;
     border-radius: .5rem;
-    border: 1px solid rgb(0 0 0 / 0.2);
-    background-color: rgb(236, 239, 241);
-    transition: background-color 0.3s ease-in-out;
+    margin-bottom: .5rem;
     cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
 }
 
-input:checked ~ label{
-    background-color: rgb(68, 132, 237);
+
+.carrera-agregada:hover {
+    background-color: rgba(240, 102, 102, 0.4);
 }
 
-.etiquetas input{
-    position: absolute;
-    opacity: 0;
+.eliminar-instituto {
+    border-radius: .5rem;
+    background: transparent;
+    border: 1px solid rgb(204 48 48 / .5);
+    background-color: rgb(204 48 48 / .2);
+    padding: .5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.eliminar-instituto:hover {
+    background-color: rgb(204 48 48 / .5);
+}
+
+/* Modalidades */
+
+.titulo-modalidades {
+    margin-bottom: 1rem;
+}
+
+.contenedor-etiquetas-modalidades {
+    display: flex;
+    justify-content: flex-start;
+    gap: 1rem;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.etiquetas-modalidades label {
+    font-weight: 400;
+    background-color: rgb(209 206 206 / 0.8);
+    padding: .5rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.etiquetas-modalidades.vista label{
+    cursor: default;
+}
+
+.etiquetas-modalidades label:hover {
+    background-color: rgb(209 206 206 / 0.6);
+}
+
+.etiquetas-modalidades input[type="checkbox"] {
     width: 0;
     height: 0;
-    cursor: pointer;
+    opacity: 0;
 }
 
-.carrera-agregada{
-    width: 100%;
-
-    border: 1px solid rgb(0 0 0 / 0.2);
-    padding: .5rem;
-    margin-bottom: .5rem;
+.etiquetas-modalidades input[type="checkbox"]:checked+label {
+    background-color: rgb(102 182 240 / 0.8);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

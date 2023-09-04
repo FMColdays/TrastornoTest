@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
             $table->string('nombreTest');
-            $table->string('descripcion');
+            $table->timestamps();
         });
     }
 

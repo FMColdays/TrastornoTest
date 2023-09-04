@@ -1,8 +1,6 @@
 const alerta = document.querySelector(".error-login");
 alerta.style.display = "none";
 
-
-
 document
     .getElementById("test-form")
     .addEventListener("submit", function (event) {

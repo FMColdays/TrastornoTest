@@ -1,14 +1,13 @@
 let valorOpcion;
 $("#buscador").select2();
 $(document).ready(function () {
-
     valorOpcion = $("#buscador").val();
     console.log(valorOpcion);
     opciones = document.querySelectorAll(".opcionesI");
 
     opciones.forEach((opcion) => {
-        console.log(opcion.value);
-        if (opcion.value !== valorOpcion) {
+        console.log(opcion.dataset.instituto);
+        if (opcion.dataset.instituto !== valorOpcion) {
             opcion.style.display = "none";
         } else {
             opcion.style.display = "block";
@@ -19,10 +18,10 @@ $(document).ready(function () {
         valorOpcion = $(this).val();
         console.log(valorOpcion);
         opciones = document.querySelectorAll(".opcionesI");
-        
+
         opciones.forEach((opcion) => {
             console.log(opcion.value);
-            if (opcion.value !== valorOpcion) {
+            if (opcion.dataset.instituto !== valorOpcion) {
                 opcion.style.display = "none";
             } else {
                 opcion.style.display = "block";

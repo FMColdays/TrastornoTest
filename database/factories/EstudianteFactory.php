@@ -22,7 +22,7 @@ class EstudianteFactory extends Factory
             'correo' => $this->faker->unique()->safeEmail(),
             'contraseña' => bcrypt('password'),
             'instituto_id' => $this->faker->numberBetween(1, 2),
-            'carrera_id' => $this->faker->numberBetween(1, 6),
+            'carrera_id' => $this->faker->numberBetween(1, 9),
             'semestre_id' => $this->faker->numberBetween(1, 10),
             'edad' => $this->faker->numberBetween(18, 30),
             'sexo' => $this->faker->randomElement(['0', '1']),

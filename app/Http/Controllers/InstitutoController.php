@@ -47,21 +47,14 @@ class InstitutoController extends Controller
         $instituto = new Instituto();
         $instituto->nombre_instituto = $request->nombre;
         $instituto->save();
-    
-        foreach ($request->carrera as $carrera) {
-            $modalidades[$carrera] = $request->input('modalidad' . $carrera);
-        }
-        
-        foreach ($modalidades as $carrera => $modalidadArray) {
-            foreach ($modalidadArray as $modalidad) {
-                $instituto->carreras()->attach([$carrera => ['estado' => $modalidad]]);
-            }
+
+        foreach ($request->input('ids') as $idCarrera) {
+            $instituto->carreras()->attach($idCarrera);
         }
 
         return redirect()->route('institutos.index');
-        
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -76,7 +69,13 @@ class InstitutoController extends Controller
      */
     public function edit(Instituto $instituto)
     {
-        return view('admin.institutos.editar');
+
+        $carrerasI = $instituto->carreras;
+        $carreras = Carrera::whereDoesntHave('institutos', function ($query) use ($instituto) {
+            $query->where('instituto_id', $instituto->id);
+        })->get();
+
+        return view('admin.institutos.editar', compact('carreras','carrerasI', 'instituto'));
     }
 
     /**
@@ -84,7 +83,14 @@ class InstitutoController extends Controller
      */
     public function update(Request $request, Instituto $instituto)
     {
-        //
+        $instituto->nombre_instituto = $request->nombre;
+        $instituto->save();
+
+   
+        $instituto->carreras()->sync($request->input('ids'));
+  
+
+        return redirect()->route('institutos.index');
     }
 
     /**
@@ -92,6 +98,7 @@ class InstitutoController extends Controller
      */
     public function destroy(Instituto $instituto)
     {
-        //
+        $instituto->delete();
+        return redirect()->route('institutos.index');
     }
 }

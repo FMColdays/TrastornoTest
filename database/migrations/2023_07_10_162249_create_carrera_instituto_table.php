@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreign('instituto_id')->references('id')->on('institutos')->onDelete('cascade');
             $table->foreign('carrera_id')->references('id')->on('carreras')->onDelete('cascade');
 
-            $table->string('estado');
             $table->timestamps();
         });
     }

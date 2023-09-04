@@ -8,6 +8,8 @@
 @section('contenido')
     <form class="contenedor" action="{{ route('estudiantes.store') }}" method="post">
         @csrf
+        <a class="btn volver" href="{{ route('@me') }}"><i class="fas fa-chevron-circle-left"></i> Volver</a>
+
         <h1 class="agregar-titulo sombra">Agregar Estudiante</h1>
 
         <div class="agregar-contenido sombra">
@@ -46,13 +48,14 @@
                     <select id="carrera" class="input-agregar" name="carrera_id" required>
 
                         @foreach ($datosTablaPivot as $carrera)
-                            <option class="opcionesI" value="{{ $carrera->instituto_id }}">
-                                {{ $carrera->nombre_carrera }}  → {{ $carrera->estado }}
+                            <option class="opcionesI" value="{{ $carrera->instituto_id }}"
+                                data-instituto="{{ $carrera->instituto_id }}">
+                                {{ $carrera->nombre_carrera }} → {{ $carrera->modalidad }}
                             </option>
                         @endforeach
                     </select>
                 </div>
-                
+
                 <div class="caja-input">
                     <label for="semestre">Semestre</label>
                     <select id="semestre" class="input-agregar" name="semestre_id">

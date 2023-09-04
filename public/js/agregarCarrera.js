@@ -1,51 +1,37 @@
-const carreras = document.querySelectorAll(".contenedor-modalidades-aceptar");
+const carreras = document.querySelectorAll(".modalidades");
 const contenedor = document.getElementById("agregar-carrera");
+const contenedor2 = document.getElementById("carreras-existentes");
 
-carreras.forEach((carrera) => {
-    carrera.addEventListener("click", (e) => {
-        let carreraId = e.target.dataset.id;
-        let valorSeleccionado = [];
+function eliminar(elemento) {
+    let div = document.createElement("div");
+    div.classList.add("contenedor-modalidades");
+    div.innerHTML = `
+    <label class="modalidades" 
+        data-id="${elemento.dataset.carreraid}" data-carrera="${elemento.dataset.carreran}" 
+        data-modalidad="${elemento.dataset.carreram}" onclick="agregar(this)">
+        ${elemento.dataset.carreran} → ${elemento.dataset.carreram}
+     </label>`;
 
-        const checkboxs = document.querySelectorAll(
-            `input[name="modalidad${carreraId}"]`
-        );
+    contenedor2.appendChild(div);
+    elemento.parentNode.remove();
+}
 
-        checkboxs.forEach((checkbox) => {
-            if (checkbox.checked) {
-                valorSeleccionado.push(checkbox.value);
-            }
-        });
-        console.log(valorSeleccionado);
-        if (valorSeleccionado.length === 0) return ;
+function agregar(elemento) {
+    let carreraId = elemento.dataset.id;
+    let carreraNombre = elemento.dataset.carrera;
+    let carreraModalidades = elemento.dataset.modalidad;
 
-        let div = document.createElement("div");
-        div.classList.add("carrera-agregada");
+    let div = document.createElement("div");
 
+    div.innerHTML = `
+            <div class="carrera-agregada" onclick = "eliminar(this)" 
+            data-carreraId = "${carreraId}" data-carreraN = "${carreraNombre}" data-carreraM = "${carreraModalidades}">
+                <input type="hidden" name="ids[]" value="${carreraId}">
+                <input type="hidden" name="carreras[]" value="${carreraNombre}">
+                <input type="hidden" name="modalidades[]" value="${carreraModalidades}">
+                <span>${carreraNombre} → ${carreraModalidades}</span>
+            </div>`;
 
-
-        valorSeleccionado.forEach((valor) => {
-            let input = document.createElement("input");
-            input.name = `modalidad${carreraId}[]`;
-            input.type = "hidden";
-            input.value = valor;
-
-            div.appendChild(input);
-        })
-
-        // Agregando carreras al formulario
-        let input = document.createElement("input");
-        input.name = `carrera[]`;
-        input.type = "hidden";
-        input.value =  carreraId;
-
-
-        // Crear un span no editable para mostrar el valor
-        let span = document.createElement("span");
-        span.textContent = e.target.dataset.nombre;
-
-        div.appendChild(input);
-        div.appendChild(span);
-        contenedor.appendChild(div);
-        e.target.parentNode.remove();
-    });
-});
+    contenedor.appendChild(div);
+    elemento.parentNode.remove();
+}
