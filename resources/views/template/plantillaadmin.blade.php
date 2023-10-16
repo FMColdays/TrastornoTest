@@ -51,14 +51,14 @@
             <a href="{{ route('institutos.index') }}" class="{{ Request::path() == 'institutos' ? 'selected' : '' }}">
                 <div class="option">
                     <i class="fa-solid fa-school"></i>
-                    <h4>Instituto</h4>
+                    <h4>Institutos</h4>
                 </div>
             </a>
 
             <a href="{{ route('carreras.index') }}" class="{{ Request::path() == 'carreras' ? 'selected' : '' }}">
                 <div class="option">
                     <i class="fa-solid fa-suitcase"></i>
-                    <h4>Carrera</h4>
+                    <h4>Carreras</h4>
                 </div>
             </a>
 

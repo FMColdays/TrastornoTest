@@ -14,6 +14,13 @@ return new class extends Migration
         Schema::create('tests', function (Blueprint $table) {
             $table->id();
             $table->string('nombreTest');
+            $table->string('descripcion');
+            $table->string('resultado1');
+            $table->string('valor1');
+            $table->string('resultado2');
+            $table->string('valor2');
+            $table->string('resultado3');
+            $table->string('valor3');
             $table->timestamps();
         });
     }

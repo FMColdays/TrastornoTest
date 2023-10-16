@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TestStoreRequest;
 use App\Models\Opcion;
 use App\Models\Pregunta;
 use App\Models\Test;
@@ -36,35 +37,44 @@ class TestController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function store(TestStoreRequest $request)
     {
-        $contadorPregunta = 0;
+        try {
+            $this->authorize('crearTest', App\Models\Test::class);
+            $test = new Test();
+            $test->nombreTest = str_replace(" ", "-", $request->input('nombre'));
+            $test->descripcion = $request->input('descripcion');
+            $test->resultado1 = $request->input('resultado1');
+            $test->valor1 = $request->input('valorRes1');
+            $test->resultado2 = $request->input('resultado2');
+            $test->valor2 = $request->input('valorRes2');
+            $test->resultado3 = $request->input('resultado3');
+            $test->valor3 = $request->input('valorRes3');
+            $test->save();
 
-        $test = new Test();
-        $test->nombreTest = str_replace(" ", "-", $request->input('nombre'));
-        $test->save();
+            $arrayCombinado = array_combine($request->input('valores'), $request->input('pregunta'));
 
-        foreach ($request->input('pregunta') as $pregunta) {
-            $contadorPregunta++;
-            $contadorRespuesta = 0;
+            foreach ($arrayCombinado as $valores => $pregunta) {
 
-            $preguntaT = new Pregunta();
-            $preguntaT->test_id = $test->id;
-            $preguntaT->pregunta = $pregunta;
-            $preguntaT->save();
+                $preguntaT = new Pregunta();
+                $preguntaT->test_id = $test->id;
+                $preguntaT->pregunta = $pregunta;
+                $preguntaT->save();
 
-
-            foreach ($request->input('respuesta' . $contadorPregunta) as $respuesta) {
-                $contadorRespuesta++;
-                $opciones = new Opcion();
-                $opciones->pregunta_id = $preguntaT->id;
-                $opciones->opcion = $respuesta;
-                $opciones->valor = $contadorRespuesta;
-                $opciones->save();
+                $arrayResVal = array_combine($request->input('respuesta' . $valores), $request->input('valorR' . $valores));
+                foreach ($arrayResVal as $respuestaN => $valorR) {
+                    $opciones = new Opcion();
+                    $opciones->pregunta_id = $preguntaT->id;
+                    $opciones->opcion = $respuestaN;
+                    $opciones->valor = $valorR;
+                    $opciones->save();
+                }
             }
-        }
 
-        return redirect('test');
+            return redirect('test');
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
     public function show(Test $test)
@@ -81,138 +91,158 @@ class TestController extends Controller
             $preguntas = Pregunta::where('test_id', $test->id)->get();
 
             return view('test.test', compact('preguntas', 'test', 'nombre', 'color'));
-        } catch (AuthorizationException) {
+        } catch (Exception) {
             return redirect('@me');
         }
     }
 
     public function edit(Test $test)
     {
-        $preguntas = Pregunta::where('test_id', $test->id)->get();
-        return view('admin.tests.editar', compact('test', 'preguntas'));
+        try {
+            $this->authorize('editarTest', App\Models\Test::class);
+            $preguntas = Pregunta::where('test_id', $test->id)->get();
+            return view('admin.tests.editar', compact('test', 'preguntas'));
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
     public function update(Request $request, Test $test)
     {
 
-        //Cambio el nombre del test
-        $test->nombreTest = str_replace(" ", "-", $request->input('nombre'));
-        $test->save();
+        try {
+            $this->authorize('editarTest', App\Models\Test::class);
 
-        //Guardo todos los id de las preguntas del test
-        $idPreguntasTest = array();
-        foreach ($test->preguntas as $pregunta) {
-            array_push($idPreguntasTest, $pregunta->id);
-        }
+            //Cambio el nombre del test
+            $test->nombreTest = str_replace(" ", "-", $request->input('nombre'));
+            $test->descripcion = $request->input('descripcion');
+            $test->resultado1 = $request->input('resultado1');
+            $test->valor1 = $request->input('valorRes1');
+            $test->resultado2 = $request->input('resultado2');
+            $test->valor2 = $request->input('valorRes2');
+            $test->resultado3 = $request->input('resultado3');
+            $test->valor3 = $request->input('valorRes3');
+            $test->save();
 
-        //Reviso que preguntas se eliminaron y guardo sus id en un array
-        $preguntasEliminadas =  array_values(array_diff($idPreguntasTest, $request->input('id')));
-
-        //Reviso que haya preguntas eliminadas y si las hay las elimino por su id
-        if ($preguntasEliminadas) {
-            foreach ($preguntasEliminadas as $preguntaEliminada) {
-                $pregunta = Pregunta::find($preguntaEliminada);
-                $pregunta->delete();
+            //Guardo todos los id de las preguntas del test
+            $idPreguntasTest = array();
+            foreach ($test->preguntas as $pregunta) {
+                array_push($idPreguntasTest, $pregunta->id);
             }
-        }
 
+            //Reviso que preguntas se eliminaron y guardo sus id en un array
+            $preguntasEliminadas =  array_values(array_diff($idPreguntasTest, $request->input('id')));
 
-        //Reviso que preguntas se modificaron y las guardo en un array
-        $preguntasEditadas =  array_values(array_intersect($idPreguntasTest, $request->input('id')));
-
-        //Reviso que haya preguntas editadas y si las hay las edito por su id
-        if ($preguntasEditadas) {
-            $contadorDePreguntas = 0;
-            foreach ($preguntasEditadas as $preguntaEditada) {
-                $pregunta = Pregunta::find($preguntaEditada);
-                $pregunta->pregunta = $request->input('pregunta')[$contadorDePreguntas++];
-                $pregunta->save();
-
-
-                //Guardo todos los id de las opciones de la pregunta
-                $idOpcionesPregunta = array();
-                $numeroDeOpciones = 0;
-
-                foreach ($pregunta->opciones as $opcion) {
-                    $numeroDeOpciones++;
-                    array_push($idOpcionesPregunta, $opcion->id);
+            //Reviso que haya preguntas eliminadas y si las hay las elimino por su id
+            if ($preguntasEliminadas) {
+                foreach ($preguntasEliminadas as $preguntaEliminada) {
+                    $pregunta = Pregunta::find($preguntaEliminada);
+                    $pregunta->delete();
                 }
-                $numeroOpcionesMenos = $numeroDeOpciones;
-
-                //Reviso que opciones se eliminaron y guardo sus id en un array
-                $opcionesEliminadas =  array_values(array_diff($idOpcionesPregunta, $request->input('idRespuesta' . $preguntaEditada)));
-
-                //Reviso que haya opciones eliminadas y si las hay las elimino por su id
-                if ($opcionesEliminadas) {
-                    foreach ($opcionesEliminadas as $opcionEliminada) {
-                        $opcion = Opcion::find($opcionEliminada);
-                        $opcion->delete();
-                    }
-                }
+            }
 
 
+            //Reviso que preguntas se modificaron y las guardo en un array
+            $preguntasEditadas =  array_values(array_intersect($idPreguntasTest, $request->input('id')));
 
-                //Agregar nuevas opciones a las preguntas si es que hay
-                if ($request->input('respuestaN' . $preguntaEditada)) {
-                    foreach ($request->input('respuestaN' . $preguntaEditada) as $respuesta) {
-                        $numeroDeOpciones++;
-                        $opciones = new Opcion();
-                        $opciones->pregunta_id = $pregunta->id;
-                        $opciones->opcion = $respuesta;
-                        $opciones->valor = $numeroDeOpciones;
-                        $opciones->save();
-                    }
-                }
+            //Reviso que haya preguntas editadas y si las hay las edito por su id
+            if ($preguntasEditadas) {
+                $contadorDePreguntas = 0;
+                foreach ($preguntasEditadas as $preguntaEditada) {
+                    $pregunta = Pregunta::find($preguntaEditada);
+                    $pregunta->pregunta = $request->input('pregunta')[$contadorDePreguntas++];
+                    $pregunta->save();
 
 
-                //Editar opciones
-                $valorDeOpcion = $numeroDeOpciones - $numeroOpcionesMenos;
-                $total = count($pregunta->opciones) - count($opcionesEliminadas);
+                    //Guardo todos los id de las opciones de la pregunta
+                    $idOpcionesPregunta = array();
 
-                if ($request->input('respuesta' . $preguntaEditada)) {
-                    $contadorDeRespuestas = 0;
                     foreach ($pregunta->opciones as $opcion) {
-                        if ($contadorDeRespuestas < $total) {
-                            $opcion->opcion = $request->input('respuesta' . $preguntaEditada)[$contadorDeRespuestas++];
-                            $opcion->valor = $valorDeOpcion;
-                            $opcion->save();
-                            $valorDeOpcion++;
+                        array_push($idOpcionesPregunta, $opcion->id);
+                    }
+
+                    //Reviso que opciones se eliminaron y guardo sus id en un array
+                    $opcionesEliminadas =  array_values(array_diff($idOpcionesPregunta, $request->input('idRespuesta' . $preguntaEditada)));
+
+                    //Reviso que haya opciones eliminadas y si las hay las elimino por su id
+                    if ($opcionesEliminadas) {
+                        foreach ($opcionesEliminadas as $opcionEliminada) {
+                            $opcion = Opcion::find($opcionEliminada);
+                            $opcion->delete();
+                        }
+                    }
+
+
+
+                    //Agregar nuevas opciones a las preguntas si es que hay
+                    if ($request->input('respuestaN' . $preguntaEditada)) {
+                        $respuestaValor = array_combine($request->input('respuestaN' . $preguntaEditada), $request->input('valorRN' . $preguntaEditada));
+                        foreach ($respuestaValor as $respuesta => $valorN) {
+                            $opciones = new Opcion();
+                            $opciones->pregunta_id = $pregunta->id;
+                            $opciones->opcion = $respuesta;
+                            $opciones->valor = $valorN;
+                            $opciones->save();
+                        }
+                    }
+
+
+                    //Editar opciones
+                    $total = count($pregunta->opciones) - count($opcionesEliminadas);
+
+                    if ($request->input('respuesta' . $preguntaEditada)) {
+                        $contadorDeRespuestas = 0;
+                        foreach ($pregunta->opciones as $opcion) {
+                            if ($contadorDeRespuestas < $total) {
+                                $opcion->opcion = $request->input('respuesta' . $preguntaEditada)[$contadorDeRespuestas];
+                                $opcion->valor = $request->input('valorR' . $preguntaEditada)[$contadorDeRespuestas];
+                                $opcion->save();
+                                $contadorDeRespuestas++;
+                            }
                         }
                     }
                 }
             }
-        }
 
 
-        //Reviso que preguntas se agregaron y las guardo en un array
-        if ($request->input('valores')) {
-            $arrayCombinado = array_combine($request->input('valores'), $request->input('preguntaN'));
-            foreach ($arrayCombinado as $valores => $preguntaN) {
-                $valorDeOpcion = 0;
+            //Reviso que preguntas se agregaron y las guardo en un array
+            if ($request->input('valores')) {
+                $arrayCombinado = array_combine($request->input('valores'), $request->input('preguntaN'));
+                foreach ($arrayCombinado as $valores => $preguntaN) {
 
-                $pregunta = new Pregunta();
-                $pregunta->test_id = $test->id;
-                $pregunta->pregunta = $preguntaN;
-                $pregunta->save();
+                    $pregunta = new Pregunta();
+                    $pregunta->test_id = $test->id;
+                    $pregunta->pregunta = $preguntaN;
+                    $pregunta->save();
 
-                foreach ($request->input('respuestaN' . $valores) as $respuestaN) {
-                    $valorDeOpcion++;
-                    $opciones = new Opcion();
-                    $opciones->pregunta_id = $pregunta->id;
-                    $opciones->opcion = $respuestaN;
-                    $opciones->valor = $valorDeOpcion;
-                    $opciones->save();
+                    $respuestaValor = array_combine($request->input('respuestaN' . $valores), $request->input('valorRN' . $valores));
+                    foreach ($respuestaValor as $respuestaN => $valorN) {
+                        $opciones = new Opcion();
+                        $opciones->pregunta_id = $pregunta->id;
+                        $opciones->opcion = $respuestaN;
+                        $opciones->valor = $valorN;
+                        $opciones->save();
+                    }
                 }
             }
+
+
+
+            return redirect()->route('test.index');
+        } catch (Exception) {
+            return redirect('@me');
         }
-
-
-
-        return redirect()->route('test.index');
     }
 
     public function destroy(Test $test)
     {
-        //
+        try {
+            $this->authorize('eliminarTest', App\Models\Test::class);
+
+            $test->delete();
+            return redirect()->route('test.index');
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 }

@@ -95,7 +95,7 @@ class SistemaController extends Controller
             $_SESSION['AuthGuard'] = 'guard_estudiantes';
             return redirect('@me');
         } catch (Exception) {
-            return redirect('login')->with('mensaje', 'Algo salió mal, intentelo otra vez');
+            return redirect('login')->with('mensaje', 'Algo salió mal, inténtelo otra vez');
         }
     }
 

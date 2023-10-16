@@ -21,18 +21,25 @@ agregarInputPregunta.addEventListener("click", () => {
 
     let div = document.createElement("div");
     div.classList.add("contenedor-agregar");
+
     div.innerHTML = `
     <i class="fa-solid fa-trash fa-lg minus-dinamico" onclick="eliminar(this)"></i>
 
-    <div>
-        <label for="">Pregunta</label>
-        <input class="input-agregar" name="valores[]" type="hidden" value="${preguntaContador}">
-        <input class="input-agregar" name="preguntaN[]" type="text">
-    </div>
-    <div>
-        <label for="">Respuesta</label>
-        <input class="input-agregar" name="respuestaN${preguntaContador}[]" type="text">
-    </div>
+
+    <label for="">Pregunta</label>
+    <input class="input-agregar" name="valores[]" type="hidden" value="${preguntaContador}">
+    <input class="input-agregar" name="preguntaN[]" type="text">
+   
+     <div class="contenedor-pregunta-valor">
+            <div class="contenedor-respuesta">
+                <label class="respuesta-test-label" for="">Respuesta</label>
+                <input class="input-agregar" name="respuestaN${preguntaContador}[]" type="text">
+            </div>
+            <div class="contenedor-valor">
+                <label class="respuesta-test-label" for="">Valor</label>
+                <input class="input-agregar" name="valorRN${preguntaContador}[]" type="number" min="1">
+            </div>
+     </div>
 
     <div class="contenedor-plus preguntas" onclick="agregarRespuesta(this)" data-valor="${preguntaContador}">
         <i class="fa-solid fa-circle-plus fa-2xl"></i>
@@ -49,8 +56,51 @@ const agregarRespuesta = (e) => {
     div.classList.add("contenedor-respuesta");
     div.innerHTML = `  
         <i class="fa-solid fa-circle-minus fa-lg minus-dinamico" onclick="eliminarRespuesta(this)"></i> 
-        <label for="">Respuesta</label>
-        <input class="input-agregar" name="respuestaN${preguntaId}[]" type="text">`;
+        <div class="contenedor-pregunta-valor">
+            <div class="contenedor-respuesta">
+                <label class="respuesta-test-label" for="">Respuesta</label>
+                <input class="input-agregar" name="respuestaN${preguntaId}[]" type="text">
+            </div>
+            <div class="contenedor-valor">
+                <label class="respuesta-test-label" for="">Valor</label>
+                <input class="input-agregar" name="valorRN${preguntaId}[]" type="number" min="1">
+            </div>
+        </div>`;
 
     e.parentNode.insertBefore(div, e);
 };
+
+function validarCampos() {
+    let inputs = document.querySelectorAll("input");
+    let selects = document.querySelectorAll("select");
+    let error = false;
+
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i].value == "" && inputs[i].type != "hidden") {
+            inputs[i].classList.add("error");
+            error = true;
+        } else {
+            inputs[i].classList.remove("error");
+        }
+    }
+
+    for (let i = 0; i < selects.length; i++) {
+        if (selects[i].value == "") {
+            selects[i].classList.add("error");
+            error = true;
+        } else {
+            selects[i].classList.remove("error");
+        }
+    }
+
+    return !error;
+}
+
+const formulario = document.querySelector('form'); 
+
+formulario.addEventListener('submit', (e) => {
+    if (!validarCampos()) {
+        e.preventDefault(); 
+    }
+});
+

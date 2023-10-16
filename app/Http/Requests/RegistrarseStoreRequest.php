@@ -24,7 +24,7 @@ class RegistrarseStoreRequest extends FormRequest
         return [
             'nombre' =>  ['required', 'regex:/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/'],
             'numeroControl' =>  ['required', 'regex:/^\d{8}$/', 'unique:estudiantes,numeroControl'],
-            'correo' => ['required', 'regex:/^[A-Za-z0-9._%+-]+@tuxtla\.tecnm\.mx$/', 'unique:estudiantes,correo'],
+            'correo' => ['required', 'email', 'unique:estudiantes,correo'],
             'contraseña' => ['required', 'regex:/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/'],
             'contraseña2' => 'required|same:contraseña',
             'instituto_id' => 'required',
@@ -48,14 +48,14 @@ class RegistrarseStoreRequest extends FormRequest
 
             'correo.required' => 'El correo institucional es requerido',
             'correo.unique' => 'Este correo institucional ya está registrado',
-            'correo.regex' => 'Ingrese un correo valido',
+            'correo.email' => 'Ingrese un correo valido',
 
             'contraseña.required' => 'La contraseña es requerida',
-            'contraseña.regex' => 'Ingrese una contaseña valida',
+            'contraseña.regex' => 'Ingrese una contraseña valida',
 
             'carrera_id.required' => 'La carrera es requerida',
 
-            'contraseña2.required' => 'La validacion de contraseña es requerida',
+            'contraseña2.required' => 'La validación de contraseña es requerida',
             'contraseña2.same' => 'Las contraseñas no coinciden.',
 
             'edad.required' => 'La edad es requerida',

@@ -55,22 +55,26 @@ class EstudianteController extends Controller
     public function create()
     {
 
-        $this->authorize('crearEstudiante', App\Models\Estudiante::class);
-        $datosTablaPivot = DB::table('carrera_instituto')
-            ->join('institutos', 'carrera_instituto.instituto_id', '=', 'institutos.id')
-            ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
-            ->select(
-                'institutos.nombre_instituto',
-                'carreras.nombre_carrera',
-                'carreras.modalidad',
-                'carrera_instituto.instituto_id',
-            )->get();
+        try {
+            $this->authorize('crearEstudiante', App\Models\Estudiante::class);
+            $datosTablaPivot = DB::table('carrera_instituto')
+                ->join('institutos', 'carrera_instituto.instituto_id', '=', 'institutos.id')
+                ->join('carreras', 'carrera_instituto.carrera_id', '=', 'carreras.id')
+                ->select(
+                    'institutos.nombre_instituto',
+                    'carreras.nombre_carrera',
+                    'carreras.modalidad',
+                    'carrera_instituto.instituto_id',
+                )->get();
 
-    
 
-        $institutos = Instituto::all();
-        $semestres = Semestre::all();
-        return view('admin.estudiantes.agregar', compact('institutos', 'datosTablaPivot', 'semestres'));
+
+            $institutos = Instituto::all();
+            $semestres = Semestre::all();
+            return view('admin.estudiantes.agregar', compact('institutos', 'datosTablaPivot', 'semestres'));
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
     /**
@@ -80,6 +84,7 @@ class EstudianteController extends Controller
     {
 
         try {
+            $this->authorize('crearEstudiante', App\Models\Estudiante::class);
             $estudiante = new Estudiante();
             $estudiante->fill($request->all());
             $estudiante->contraseña = Hash::make($request->input('contraseña'));
@@ -87,7 +92,7 @@ class EstudianteController extends Controller
 
             return redirect('estudiantes');
         } catch (Exception) {
-            return redirect('login')->with('mensaje', 'Algo salió mal, inténtelo otra vez');
+            return redirect('@me');
         }
     }
 

@@ -112,146 +112,40 @@ class TestRealizadoController extends Controller
 
         $suma = session('suma');
         $nombre = session('nombreTest');
+        $test = Test::where('nombreTest', $nombre)->first();
+
         $valor = 0;
         $idTest = 0;
 
         try {
-            if ($nombre == 'Audit') {
-                $idTest = 1;
-                if ($suma <= 7) {
-                    $res = "Consumo de alcohol de bajo riesgo";
-                    $valor = 1;
-                } elseif ($suma <= 15) {
-                    $res = "Consumo de alcohol de riesgo";
-                    $valor = 2;
-                } else {
-                    $res = "Posibilidad de trastorno por consumo de alcohol";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'PHQ-9') {
-                $idTest = 2;
-                if ($suma <= 4) {
-                    $res = "Ausencia de síntomas depresivos";
-                    $valor = 1;
-                } elseif ($suma <= 9) {
-                    $res = "Síntomas leves de depresión";
-                    $valor = 1;
-                } elseif ($suma <= 14) {
-                    $res = "Síntomas moderados de depresión";
-                    $valor = 2;
-                } elseif ($suma <= 19) {
-                    $res = "Síntomas moderadamente graves de depresión";
-                    $valor = 2;
-                } else {
-                    $res = "Síntomas de depresión grave";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'MDQ') {
-                $idTest = 3;
-                if ($suma <= 7) {
-                    $res = "Sin riesgo de desorden de personalidad";
-                    $valor = 1;
-                } elseif ($suma <= 10) {
-                    $res = "Probabilidad de desorden de personalidad";
-                    $valor = 2;
-                } else {
-                    $res = "Riesgo de desorden de personalidad";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'DEP-ADO') {
-                $idTest = 4;
-                if ($suma <= 10) {
-                    $res = "Bajo riesgo en consumo de drogas";
-                    $valor = 1;
-                } elseif ($suma <= 30) {
-                    $res = "Propenso a adicciones en el consumo de drogas";
-                    $valor = 2;
-                } elseif ($suma <= 40) {
-                    $res = "Alto riesgo con el consumo de drogas";
-                    $valor = 2;
-                } else {
-                    $res = "Riesgo muy alto con el consumo de drogas";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'EDDS') {
-                $idTest = 5;
-                if ($suma <= 21) {
-                    $res = "Bajo riesgo de desorden alimenticio";
-                    $valor = 1;
-                } elseif ($suma <= 43) {
-                    $res = " Probabilidad moderada de desorden alimenticio";
-                    $valor = 2;
-                } else {
-                    $res = " Probabilidad alta de desorden alimenticio";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'BHS') {
-                $idTest = 6;
-                if ($suma <= 3) {
-                    $res = "Nivel bajo de desesperanza";
-                    $valor = 1;
-                } elseif ($suma <= 8) {
-                    $res = "Nivel moderado de desesperanza";
-                    $valor = 2;
-                } else {
-                    $res = "Nivel alto de desesperanza";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'Ansiedad') {
-                $idTest = 7;
-                $promedio = $suma / 20;
-                if ($promedio <= 2) {
-                    $res = "Sin riesgo de ansiedad";
-                    $valor = 1;
-                } elseif ($promedio <= 3) {
-                    $res = "Ansiedad moderada";
-                    $valor = 2;
-                } else {
-                    $res = "Ansiedad severa";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'Estres') {
-                $idTest = 8;
-                $promedio = $suma / 30;
 
-                if ($promedio <= 2) {
-                    $res = "Sin riesgo de estres";
-                    $valor = 1;
-                } elseif ($promedio <= 3) {
-                    $res = "Estres moderado";
-                    $valor = 2;
-                } else {
-                    $res = "Estres severo";
-                    $valor = 3;
-                }
-            } elseif ($nombre == 'Afeccion-Academica') {
-                $idTest = 9;
-                $promedio = $suma / 30;
-
-                if ($promedio <= 2) {
-                    $res = "Sin afectación académica";
-                    $valor = 1;
-                } elseif ($promedio <= 3) {
-                    $res = "Afectación académica leve";
-                    $valor = 2;
-                } elseif ($promedio <= 4) {
-                    $res = "Afectación académica moderada";
-                    $valor = 2;
-                } else {
-                    $res = "Afectación académica severa";
-                    $valor = 3;
-                }
+            if ($test->nombreTest == 'Ansiedad') {
+                $suma = $suma / 20;
+            } elseif ($test->nombreTest == 'Estres') {
+                $suma = $suma / 30;
+            } elseif ($test->nombreTest == 'Afeccion-Academica') {
+                $suma = $suma / 30;
             }
 
-            if ($res !== '') {
-                $resultado = new Resultado;
-                $resultado->estudiante_id = auth()->user()->id;
-                $resultado->nombre_test = $nombre;
-                $resultado->test_id = $idTest;
-                $resultado->resultado= $valor;
-                $resultado->save();
-                return view('test.resultado', compact('res', 'nombre'));
+
+            if ($suma <= $test->valor1) {
+                $res = $test->resultado1;
+                $valor = 1;
+            } elseif ($suma <= $test->valor2) {
+                $res = $test->resultado2;
+                $valor = 2;
+            } else {
+                $res = $test->resultado3;
+                $valor = 3;
             }
+
+            $resultado = new Resultado;
+            $resultado->estudiante_id = auth()->user()->id;
+            $resultado->nombre_test = $test->nombreTest;
+            $resultado->test_id = $test->id;
+            $resultado->resultado = $valor;
+            $resultado->save();
+            return view('test.resultado', compact('res', 'nombre'));
         } catch (Exception) {
         }
 

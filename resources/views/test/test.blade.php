@@ -25,6 +25,7 @@
 
                 <div class="pregunta">
                     <h1 class="titulo-pregunta">Test de {{ $nombre }}</h1>
+                    <p>{{$test->descripcion}}</p>
                     <p class="error-login">*Debe rellenar todos los campos</p>
                 </div>
 

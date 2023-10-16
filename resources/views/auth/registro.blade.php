@@ -18,7 +18,7 @@
                     <h1 class="titulo-registro">Registrarse</h1>
                 </div>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="nombre">Nombre completo</label>
                     <input class="input-registro" id="nombre" type="text" name="nombre" placeholder="Nombre completo"
                         value={{ old('nombre') }}>
@@ -28,9 +28,9 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="numeroControl">Numero de control</label>
                     <input class="input-registro" id="numeroControl" type="text" name="numeroControl"
                         placeholder="Numero de control" value={{ old('numeroControl') }}>
@@ -40,9 +40,9 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="correo">Correo</label>
                     <input class="input-registro" id="correo" type="email" name="correo"
                         placeholder="Correo institucional" value={{ old('correo') }}>
@@ -52,9 +52,9 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="contraseña">Contraseña</label>
                     <input class="input-registro" id="contraseña" type="password" name="contraseña"
                         placeholder="Contraseña">
@@ -71,9 +71,9 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="contraseña2">Confirmar contraseña</label>
                     <input class="input-registro" id="contraseña2" type="password" name="contraseña2"
                         placeholder="Repita su contraseña">
@@ -84,9 +84,9 @@
                         </div>
                     @enderror
                     <p class="errorE coincidencia">Las contraseñas no coinciden</p>
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="instituto">Instituto</label>
                     <select id="buscador" class="section-registro" name="instituto_id">
                         @foreach ($institutos as $instituto)
@@ -96,13 +96,12 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for=" ">Carrera</label>
 
                     <select id="carrera" class="section-registro" name="carrera_id" required>
-
 
                         @foreach ($datosTablaPivot as $carrera)
                             <option class="opcionesI" value="{{ $carrera->id }}"
@@ -112,9 +111,9 @@
                         @endforeach
 
                     </select>
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="semestre">Semestre</label>
                     <select id="semestre" class="section-registro" name="semestre_id">
                         @foreach ($semestres as $semestre)
@@ -124,9 +123,9 @@
                             </option>
                         @endforeach
                     </select>
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="edad">Edad</label>
                     <input class="input-registro" id="edad" type="text" name="edad" placeholder="Edad"
                         value={{ old('edad') }}>
@@ -135,15 +134,15 @@
                             {{ $message }}
                         </div>
                     @enderror
-                </div>
+                </section>
 
-                <div class="pregunta">
+                <section class="pregunta">
                     <label class="label-registro" for="sexo">Sexo</label>
                     <select id="sexo" class="section-registro" name="sexo">
                         <option value="0" {{ old('sexo') == 0 ? 'selected' : '' }}>Hombre</option>
                         <option value="1" {{ old('sexo') == 1 ? 'selected' : '' }}>Mujer</option>
                     </select>
-                </div>
+                </section>
 
                 <input class="btnregistrar" id="btnregistrar" type="submit" value="Registrar">
             </form>

@@ -7,15 +7,20 @@
         @method('PUT')
         <a class="btn volver" href="{{ route('@me') }}"><i class="fas fa-chevron-circle-left"></i> Volver</a>
 
-        <h1 class="agregar-titulo sombra">Agregar Carrera</h1>
+        <h1 class="agregar-titulo sombra">Editar Carrera</h1>
 
         <div class="agregar-contenido sombra">
             <div class="contenido-cuerpo">
 
                 <div class="caja-input">
-                    <label for="nombre">Nombre de la carrera cancion</label>
+                    <label for="nombre">Nombre de la carrera</label>
                     <input id="nombre" class="input-agregar" type="text" name="nombre"
                         value="{{ $carrera->nombre_carrera }}">
+                    @error('nombre')
+                        <div class="error-registro">
+                            {{ $message }}
+                        </div>
+                    @enderror
                 </div>
 
                 <div class="caja-input">

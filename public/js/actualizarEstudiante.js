@@ -1,12 +1,15 @@
 let valorOpcion;
 $("#buscador").select2();
 $(document).ready(function () {
+
+    $(".input-agregar").on("input", function () {
+        $(this).siblings(".error-registro").hide();
+    });
+
     valorOpcion = $("#buscador").val();
-    console.log(valorOpcion);
     opciones = document.querySelectorAll(".opcionesI");
 
     opciones.forEach((opcion) => {
-        console.log(opcion.dataset.instituto);
         if (opcion.dataset.instituto !== valorOpcion) {
             opcion.style.display = "none";
         } else {
@@ -16,7 +19,7 @@ $(document).ready(function () {
 
     $("#buscador").on("change", function () {
         valorOpcion = $(this).val();
-        console.log(valorOpcion);
+       
         opciones = document.querySelectorAll(".opcionesI");
 
         opciones.forEach((opcion) => {

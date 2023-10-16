@@ -326,6 +326,15 @@ a.selected {
     }
 }
 
+.error-registro {
+    color: red;
+    margin-bottom: 1rem;
+}
+
+.error{
+    border: 1px solid red !important;
+}
+
 .header-estudiantes__buscar input[type="text"],
 .header-estudiantes__buscar input[type="submit"] {
     width: 100%;
@@ -574,6 +583,55 @@ a.selected {
     margin-top: 20px;
 }
 
+
+
+.contenedor-pregunta-valor {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgb(0 0 0 / 0.2);
+}
+
+
+.contenedor-respuesta{
+    width: 100%;
+    flex: 7;
+}
+
+.contenedor-valor{
+    width: 100%;
+    flex: 1;
+}
+
+@media (min-width: 576px) {
+    .contenedor-pregunta-valor {
+        width: 100%;
+        flex-direction: row;
+    }
+}
+
+
+
+
+.pregunta-test-label {
+    font-weight: 700;
+    color: var(--colorPrincipal);
+}
+
+.respuesta-test-label {
+    font-weight: 700;
+    color: var(--colorPrincipal);
+}
+
+.contenedor-valor input {
+    text-align: center;
+}
+
 /* agregar carreras */
 
 .titulo-agregar-carrera {
@@ -661,7 +719,7 @@ a.selected {
     transition: background-color 0.3s ease-in-out;
 }
 
-.etiquetas-modalidades.vista label{
+.etiquetas-modalidades.vista label {
     cursor: default;
 }
 

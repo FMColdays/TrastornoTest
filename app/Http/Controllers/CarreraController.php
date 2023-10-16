@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CarreraStoreRequest;
+use App\Http\Requests\UpdateCarreraRequest;
 use App\Models\Carrera;
 use Exception;
 use Illuminate\Http\Request;
@@ -39,7 +41,7 @@ class CarreraController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CarreraStoreRequest $request)
     {
 
         $this->authorize('crearCarrera', App\Models\Carrera::class);
@@ -67,17 +69,28 @@ class CarreraController extends Controller
      */
     public function edit(Carrera $carrera)
     {
-        return view('admin.carreras.editar', compact('carrera'));
+        try {
+            $this->authorize('editarCarrera', App\Models\Carrera::class);
+            return view('admin.carreras.editar', compact('carrera'));
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Carrera $carrera)
+    public function update(UpdateCarreraRequest $request, Carrera $carrera)
+
     {
-        $carrera->nombre_carrera = $request->nombre;
-        $carrera->save();
-        return redirect()->route('carreras.index');
+        try {
+            $this->authorize('editarCarrera', App\Models\Carrera::class);
+            $carrera->nombre_carrera = $request->nombre;
+            $carrera->save();
+            return redirect()->route('carreras.index');
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 
     /**
@@ -85,7 +98,12 @@ class CarreraController extends Controller
      */
     public function destroy(Carrera $carrera)
     {
-        $carrera->delete();
-        return redirect()->route('carreras.index');
+        try {
+            $this->authorize('eliminarCarrera', App\Models\Carrera::class);
+            $carrera->delete();
+            return redirect()->route('carreras.index');
+        } catch (Exception) {
+            return redirect('@me');
+        }
     }
 }

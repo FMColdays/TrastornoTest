@@ -19,4 +19,16 @@ class CarreraPolicy
         if ($usuario instanceof Administrador) return true;
         else return false;
     }
+
+    public function editarCarrera(Usuario $usuario): bool
+    {
+        if ($usuario instanceof Administrador) return true;
+        else return false;
+    }
+
+    public function eliminarCarrera(Usuario $usuario): bool
+    {
+        if ($usuario instanceof Administrador) return true;
+        else return false;
+    }
 }

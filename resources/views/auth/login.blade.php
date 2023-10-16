@@ -27,6 +27,7 @@
         <form class="contenedor-contenido" action="{{ route('validar') }}" method="POST">
             @csrf
             <h1 class="titulo-contenido">Iniciar sesión</h1>
+    
             <div class="contenido">
                 <div class="contenido-inputs">
                     <label for="correo">Correo</label>

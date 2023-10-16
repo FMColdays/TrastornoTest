@@ -21,7 +21,7 @@
         </div>
 
         <div class="contenedor-ancle">
-            @if (auth()->user()->testRealizado()->count() > 8)
+            @if (auth()->user()->testRealizado()->count() == count($tests))
                 <a href="javascript:generarPDF()"><i class="fa-solid fa-file-pdf fa-xl"></i></a>
                 <div id="user-name" data-name="{{ auth()->user()->nombre }}"></div>
                 <div id="svg-container" style="display: none">

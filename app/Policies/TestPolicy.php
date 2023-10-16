@@ -18,4 +18,16 @@ class TestPolicy
         if ($usuario instanceof Administrador) return true;
         else return false;
     }
+
+    public function editarTest(Usuario $usuario): bool
+    {
+        if ($usuario instanceof Administrador) return true;
+        else return false;
+    }
+
+    public function eliminarTest(Usuario $usuario): bool
+    {
+        if ($usuario instanceof Administrador) return true;
+        else return false;
+    }
 }

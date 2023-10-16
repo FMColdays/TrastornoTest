@@ -11,7 +11,12 @@
         <div class="contenedor-agregar">
             <div class="caja-input">
                 <label for="">Nombre del instituto</label>
-                <input class="input-agregar" name="nombre" type="text">
+                <input class="input-agregar" name="nombre" type="text" value={{ old('nombre') }}>
+                @error('nombre')
+                    <div class="error-registro">
+                        {{ $message }}
+                    </div>
+                @enderror
             </div>
         </div>
 
