@@ -34,18 +34,16 @@ body {
 }
 
 .notavif.notwebp body {
-
-    background-image: url('../img//jpg/fondologin.jpg');
+   background-image: linear-gradient(to right, rgb(32 60 108 / 0.1), rgb(32 60 108 / 0.3)), url('../img//jpg/fondologin.jpg');
 }
 
 .webp body {
-    background-image: url('../img/webp/fondologin.webp');
+    background-image: linear-gradient(to right, rgb(32 60 108/ 0.1), rgb(32 60 108 / 0.3)), url('../img/webp/fondologin.webp');
 }
 
 .avif body {
-    background-image: url('../img/avif/fondologin.avif');
+    background-image: linear-gradient(to right, rgb(32 60 108 / 0.1), rgb(32 60 108 / 0.3)), url('../img/avif/fondologin.avif');
 }
-
 
 *, *:before, *:after {
     box-sizing: border-box;
@@ -85,7 +83,6 @@ main {
     }
 }
 
-
 /* Imagen */
 
 .contenedor-img {
@@ -97,17 +94,8 @@ main {
     background-size: cover;
 }
 
-.notavif.notwebp .contenedor-img {
-
-    background-image: url('../img//jpg/fondoform.jpg');
-}
-
-.webp .contenedor-img {
-    background-image: url('../img/webp/fondoform.webp');
-}
-
-.avif .contenedor-img {
-    background-image: url('../img/avif/fondoform.avif');
+ .contenedor-img {
+    background-color: var(--colorPrincipal);
 }
 
 .titulo-img {

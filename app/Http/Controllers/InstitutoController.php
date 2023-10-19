@@ -14,11 +14,27 @@ class InstitutoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $this->authorize('verInstitutos', App\Models\Instituto::class);
-            $institutos = Instituto::all();
+            $buscar = trim($request->input('buscar'));
+
+            if ($buscar == '') {
+                $institutos = Instituto::latest()->paginate(6);
+            } else {
+
+                $institutos = Instituto::when($buscar, function ($query, $buscar) {
+                    return $query->where(function ($query) use ($buscar) {
+                        $query->where('nombre_instituto', 'LIKE', '%' . $buscar . '%');
+                    });
+                })->latest()->paginate(PHP_INT_MAX);
+            }
+
+            if ($request->ajax()) {
+                $view = view('admin.institutos.load', compact('institutos'))->render();
+                return response()->json(['view' => $view, 'nextPageUrl' => $institutos->nextPageUrl()]);
+            }
             return view('admin.institutos.index', compact('institutos'));
         } catch (Exception) {
             return redirect('@me');
@@ -115,7 +131,7 @@ class InstitutoController extends Controller
         try {
             $this->authorize('eliminarInstituto', App\Models\Instituto::class);
             $instituto->delete();
-            
+
             return redirect()->route('institutos.index');
         } catch (Exception) {
             return redirect('@me');

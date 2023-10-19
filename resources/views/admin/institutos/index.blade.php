@@ -5,25 +5,19 @@
     <div class="contenedor-index">
         <header class="header-estudiantes">
             <h1>Institutos</h1>
+            <form action="{{ route('institutos.index') }}" method="GET" class="header-estudiantes__buscar">
+                <input id="buscar" name="buscar" type="text" placeholder="Buscar" />
+                <input type="submit" value="Buscar">
+            </form>
         </header>
-
-        <div class="main-test">
-
-            @foreach ($institutos as $instituto)
-                <a href="{{ route('institutos.edit', $instituto) }}">
-                    <div class="card-index sombra">
-                        <h4>{{ $instituto->nombre_instituto }}</h4>
-
-                        <form action="{{ route('institutos.destroy', $instituto->id) }}" method="post">
-                            @method('DELETE')
-                            @csrf
-                                <input id="eliminarI" class="eliminar-instituto" type="submit" value="Eliminar">
-                        </form>
-                    </div>
-
-
-                </a>
-            @endforeach
+        <div id="instititutos-contenedor" class="main-test"
+            data-next-page="{{ $institutos->hasMorePages() ? $institutos->nextPageUrl() : '' }}">
+            @include('admin.institutos.load')
         </div>
     </div>
+@endsection
+
+@section('jsEstudiante')
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="{{ asset('js/cargarDatos.js') }}"></script>
 @endsection

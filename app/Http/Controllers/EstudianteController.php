@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Estudiante;
 use App\Http\Requests\StoreEstudianteRequest;
 use App\Http\Requests\UpdateEstudianteRequest;
-use App\Models\Carrera;
 use App\Models\Instituto;
 use App\Models\Semestre;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 

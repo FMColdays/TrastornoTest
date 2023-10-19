@@ -20,12 +20,16 @@
             </picture>
         </div>
 
+
+
         <div class="contenedor-ancle">
             @if (auth()->user()->testRealizado()->count() == count($tests))
                 <a href="javascript:generarPDF()"><i class="fa-solid fa-file-pdf fa-xl"></i></a>
                 <div id="user-name" data-name="{{ auth()->user()->nombre }}"></div>
+                <div id="user-certificado" data-certificado="{{ auth()->user()->id_certificado }}"></div>
+
                 <div id="svg-container" style="display: none">
-                    {{ QrCode::size(500)->generate('http://127.0.0.1:8000/estudiantes/' . auth()->user()->numeroControl . '/edit') }}
+                    {{ QrCode::size(500)->generate('https://tecnmtest.com/estudiantes/' . auth()->user()->numeroControl . '/edit') }}
                 </div>
             @endif
             <div class="contenedor-logout">
@@ -46,7 +50,7 @@
 
                     @if (!$testRealizado)
                         <div>
-                            <a href="{{ route('test.show', $test) }}">
+                            <a href="{{ route('test.show', strtolower($test->nombreTest)) }}">
                                 <div class="test">
                                     <img src="https://ssl.gstatic.com/docs/templates/thumbnails/1R2sTjfMFHee6VYVhuz8Tpi78mROlLWY4XgaKkJKMuis_400.png"
                                         alt="imagen-test">

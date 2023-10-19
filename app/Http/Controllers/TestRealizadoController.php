@@ -40,7 +40,7 @@ class TestRealizadoController extends Controller
             if ($testRealizado !== null) $this->authorize('viewTest',  $testRealizado); //Si ya realizo el test lo regresa
 
             $test_realizado = new TestRealizado;
-            $test_realizado->nombre = uniqid(decrypt($request->input('nombre')) . '_');
+            $test_realizado->nombre = uniqid(strtolower(decrypt($request->input('nombre'))) . '_');
             $test_realizado->test_id = decrypt($request->input('test_id'));
             $test_realizado->estudiante_id = auth()->user()->id;
             $test_realizado->save();
@@ -64,7 +64,7 @@ class TestRealizadoController extends Controller
 
 
 
-            if (auth()->user()->testRealizado()->count() > 8) {
+            if (auth()->user()->testRealizado()->count() == count(Test::all())) {
                 auth()->user()->id_certificado = uniqid();
                 auth()->user()->save();
             }

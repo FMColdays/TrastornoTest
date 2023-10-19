@@ -15,6 +15,5 @@ class AdministradorPolicy
         if($usuario instanceof Administrador) return true;
         else return false;
     }
-
    
 }

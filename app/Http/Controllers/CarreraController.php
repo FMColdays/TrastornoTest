@@ -13,11 +13,28 @@ class CarreraController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $this->authorize('verCarreras', App\Models\Carrera::class);
-            $carreras = Carrera::all();
+            $buscar = trim($request->input('buscar'));
+
+            if ($buscar == '') {
+                $carreras = Carrera::latest()->paginate(6);
+            } else {
+
+                $carreras = Carrera::when($buscar, function ($query, $buscar) {
+                    return $query->where(function ($query) use ($buscar) {
+                        $query->where('nombre_carrera', 'LIKE', '%' . $buscar . '%')
+                            ->orWhere('modalidad', $buscar);
+                    });
+                })->latest()->paginate(PHP_INT_MAX);
+            }
+
+            if ($request->ajax()) {
+                $view = view('admin.carreras.load', compact('carreras'))->render();
+                return response()->json(['view' => $view, 'nextPageUrl' => $carreras->nextPageUrl()]);
+            }
             return view('admin.carreras.index', compact('carreras'));
         } catch (Exception) {
             return redirect('@me');

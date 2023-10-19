@@ -16,11 +16,27 @@ class TestController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         try {
             $this->authorize('verTestAdmin', App\Models\Test::class);
-            $tests = Test::all();
+            $buscar = trim($request->input('buscar'));
+
+            if ($buscar == '') {
+                $tests = Test::latest()->paginate(6);
+            } else {
+
+                $tests = Test::when($buscar, function ($query, $buscar) {
+                    return $query->where(function ($query) use ($buscar) {
+                        $query->where('nombreTest', 'LIKE', '%' . $buscar . '%');
+                    });
+                })->latest()->paginate(PHP_INT_MAX);
+            }
+
+            if ($request->ajax()) {
+                $view = view('admin.tests.load', compact('tests'))->render();
+                return response()->json(['view' => $view, 'nextPageUrl' => $tests->nextPageUrl()]);
+            }
             return view('admin.tests.index', compact('tests'));
         } catch (AuthorizationException) {
             return redirect('@me');
@@ -84,8 +100,10 @@ class TestController extends Controller
             $test = Test::where('nombreTest', $nombre)->first();
             $testRealizado = TestRealizado::where('test_id', $test->id)->where('estudiante_id', auth()->user()->id)->first();
 
+
             if ($testRealizado !== null) $this->authorize('viewTest',  $testRealizado);
 
+            $this->authorize('verTest', App\Models\Estudiante::class);
             $colores = ['#9AFAC2', '#FAF499', '#FA8E7D', '#FAA8EF', '#CCD3FA', '#C3F9F9', '#9FFA9B'];
             $color = $colores[array_rand($colores)];
             $preguntas = Pregunta::where('test_id', $test->id)->get();

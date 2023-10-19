@@ -29,9 +29,14 @@ function generarPDF() {
     if (svg) svg = svg.replace(/\r?\n|\r/g, "").trim();
 
     let userNameDiv = document.getElementById("user-name");
+    let userCertificadoDiv = document.getElementById("user-certificado");
     let nombre = userNameDiv
         ? userNameDiv.getAttribute("data-name")
         : "Sin Nombre";
+
+    let certificado = userCertificadoDiv
+        ? userCertificadoDiv.getAttribute("data-certificado")
+        : "sin certificado";
 
     //Creo elemento canvas
     var canvas = document.createElement("canvas");
@@ -98,6 +103,8 @@ function generarPDF() {
     doc.addImage(IMG1, 0, 400, 200, 200);
     doc.addImage(IMG2, 650, 0, 200, 200);
     doc.addImage(imgData, 370, 350, 150, 150);
+
+    doc.text(335, 525, `Numero de certificado: ${certificado}`);
 
     doc.save("Constancia.pdf");
 }
